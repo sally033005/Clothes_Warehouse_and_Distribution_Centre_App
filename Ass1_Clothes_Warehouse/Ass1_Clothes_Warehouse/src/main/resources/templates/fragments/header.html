@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+</head>
+<body>
+<header class="navbar">
+    <nav>
+        <ul class="nav-list">
+            
+            <li sec:authorize="isAuthenticated()" class="user-info">
+                <span th:text="'Welcome, ' + ${#authentication.name}"></span>
+            </li>
+
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/items}">Item List</a></li>
+            
+            <li sec:authorize="isAnonymous()">
+                <a th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()">
+                <a th:href="@{/registration}">Register</a>
+            </li>
+            
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/add-item}">Add Item</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin}">Admin Panel</a>
+            </li>
+            <li sec:authorize="hasRole('WAREHOUSE_EMPLOYEE')">
+                <a th:href="@{/add-item}">Add Item</a>
+            </li>
+            
+            <li sec:authorize="isAuthenticated()">
+                <form method="POST" th:action="@{/logout}" class="logout-form">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>

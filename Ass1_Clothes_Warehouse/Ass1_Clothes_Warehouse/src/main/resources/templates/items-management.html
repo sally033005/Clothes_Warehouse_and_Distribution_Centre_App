@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Item Management</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+    <h1>Item Management</h1>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Manufacture Year</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.brand}"></td>
+            <td th:text="${item.year}"></td>
+            <td th:text="${item.price}"></td>
+            <td>
+                <form th:action="@{/admin/items/delete/{id}(id=${item.id})}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div>
+        <a th:if="${page.hasPrevious()}" th:href="@{/admin/items-management(page=${page.number - 1}, size=${page.size})}">Previous</a>
+        <span th:text="${page.number + 1}"></span> / <span th:text="${page.totalPages}"></span>
+        <a th:if="${page.hasNext()}" th:href="@{/admin/items-management(page=${page.number + 1}, size=${page.size})}">Next</a>
+    </div>
+
+    <br>
+    <a href="/admin">Back to Admin Panel</a>
+</body>
+</html>

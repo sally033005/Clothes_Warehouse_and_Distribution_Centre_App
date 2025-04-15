@@ -1,0 +1,206 @@
+/* Apply flexbox to the body or parent container */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically */
+    height: 100vh;  /* Take full viewport height */
+    text-align: center;  /* Aligns the text */
+}
+
+.pic {
+    margin: 15px;
+    width: 30%;  /* Adjust width to fit the container */
+    max-height: 300px; /* Set a maximum height to maintain aspect ratio */
+    object-fit: contain;  /* Keeps the image within its bounds */
+}
+
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    padding: 20px;
+}
+
+/* Page Heading */
+h1 {
+    color: #4CAF50;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+/* Labels */
+label {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Form Inputs */
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Login Link */
+.login-link {
+    margin-top: 20px;
+}
+
+
+/* Header */
+/* Ensure header spans full width and sticks to the top */
+.navbar {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    width: 100%;  /* Full width */
+    position: fixed;  /* Stick to the top */
+    top: 0;  /* No space above */
+    left: 0;
+    z-index: 1000;  /* Ensure it's above other elements */
+}
+
+/* Adjust body content so it's not hidden behind the fixed header */
+body {
+    padding-top: 60px;  /* Push content down */
+}
+
+/* Navigation List */
+.nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navigation Links */
+.nav-list li {
+    margin: 0 10px;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+
+.nav-list a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+/* User Info */
+.user-info {
+    color: white;
+    font-size: 16px;
+}
+
+/* Logout Button */
+.logout-form {
+    display: inline;
+}
+
+.logout-form button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.logout-form button:hover {
+    background-color: #cc0000;
+}
+
+
+/* Admin Page Styles */
+.admin-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Admin Header */
+.admin-container h1 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+/* Admin Links */
+.admin-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.admin-container li {
+    margin: 15px 0;
+}
+
+.admin-container a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #007bff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background: #e3f2fd;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.admin-container a:hover {
+    background: #007bff;
+    color: white;
+}
+
+/* Back Button */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #555;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    background: #ddd;
+}

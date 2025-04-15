@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Registration</title>
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+</head>
+
+<body>
+    <h1>Registration</h1>
+    <div th:if="${error}">
+        Unable to register. Check your details.
+    </div>
+    <p>Already have an account? Click
+        <a th:href="@{/login}">here</a> to login.
+    </p>
+
+    <form method="POST" th:action="@{/registration}" id="registrationForm">
+        <label for="fullName">Full Name: </label>
+        <input type="text" name="fullName" id="fullName" required /><br />
+
+        <label for="username">Username: </label>
+        <input type="text" name="username" id="username" required /><br />
+
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password" required /><br />
+
+        <label for="role">Role: </label>
+        <select name="role" id="role">
+            <option value="USER">Regular User</option>
+            <option value="WAREHOUSE_EMPLOYEE">Warehouse Employee</option>
+            <option value="ADMIN">Admin</option>
+        </select><br />
+
+        <input type="submit" value="Register" />
+    </form>
+</body>
+
+</html>

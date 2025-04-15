@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Request Item</title>
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center mb-0">Request Item</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Success/Error Messages -->
+                        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <span th:text="${success}"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span th:text="${error}"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <form th:action="@{/admin/request-item}" method="post" class="mt-4">
+                            <div class="form-group">
+                                <label for="itemName">Item Name</label>
+                                <select class="form-control" id="itemName" name="itemName" required>
+                                    <option value="">Select Item Name</option>
+                                    <option th:each="item : ${items}"
+                                            th:value="${item.name}"
+                                            th:text="${item.name}">Item Name</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="brand">Brand</label>
+                                <select class="form-control" id="brand" name="brand" required>
+                                    <option value="">Select Brand</option>
+                                    <option th:each="item : ${items}"
+                                            th:value="${item.brand}"
+                                            th:text="${item.brand}">Brand</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mr-2">Submit Request</button>
+                                <a th:href="@{/admin}" class="btn btn-secondary">Back to Dashboard</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html> 
