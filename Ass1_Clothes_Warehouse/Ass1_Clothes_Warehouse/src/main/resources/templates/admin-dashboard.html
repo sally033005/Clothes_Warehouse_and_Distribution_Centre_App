@@ -26,21 +26,25 @@
 <head>
     <title>Admin Panel</title>
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
     <header th:replace="fragments/header :: header"></header>
+    <div class="container">
+        <div class="hero-section">
+            <h1>Admin Dashboard</h1>
+        </div>
 
     <div class="admin-container">
-        <h1>Admin Dashboard</h1>
         <h3>Welcome to the Admin Panel!</h3>
-        <p>Choose an option below:</p>
+        <p style="color: var(--text-light); margin-bottom: 30px;">Manage your warehouse operations efficiently</p>
 
         <ul>
-            <li><a th:href="@{/admin/items-management}">Item Management</a></li>
-            <li><a th:href="@{/add-item}">Add Item</a></li>
-            <li><a th:href="@{/admin/distribution-centres}">View Distribution Centres</a></li>
-            <li><a th:href="@{/admin/request-item}">Request Item</a></li>
+            <li><a th:href="@{/admin/items-management}">📦 Item Management</a></li>
+            <li><a th:href="@{/add-item}">➕ Add New Item</a></li>
+            <li><a th:href="@{/admin/distribution-centres}">🏢 View Distribution Centres</a></li>
+            <li><a th:href="@{/admin/request-item}">📋 Request Item</a></li>
         </ul>
 
     </div>

@@ -8,13 +8,12 @@
 <header class="navbar">
     <nav>
         <ul class="nav-list">
-            
             <li sec:authorize="isAuthenticated()" class="user-info">
-                <span th:text="'Welcome, ' + ${#authentication.name}"></span>
+                <span th:text="${#authentication.name}"></span>
             </li>
 
             <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/items}">Item List</a></li>
+            <li><a th:href="@{/items}">Items</a></li>
             
             <li sec:authorize="isAnonymous()">
                 <a th:href="@{/login}">Login</a>
@@ -27,7 +26,7 @@
                 <a th:href="@{/add-item}">Add Item</a>
             </li>
             <li sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/admin}">Admin Panel</a>
+                <a th:href="@{/admin}">Admin</a>
             </li>
             <li sec:authorize="hasRole('WAREHOUSE_EMPLOYEE')">
                 <a th:href="@{/add-item}">Add Item</a>

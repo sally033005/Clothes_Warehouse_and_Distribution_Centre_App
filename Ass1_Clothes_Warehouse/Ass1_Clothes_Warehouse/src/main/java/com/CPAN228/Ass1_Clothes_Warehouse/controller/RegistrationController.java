@@ -25,9 +25,30 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String processRegistration(@ModelAttribute User user) {
+    public String processRegistration(@ModelAttribute User user, Model model) {
+        // Check if username already exists
+        if (userRepo.findByUsername(user.getUsername()) != null) {
+            model.addAttribute("error", "Username already exists. Please choose a different username.");
+            model.addAttribute("user", user);
+            return "registration";
+        }
+        
+        // Validate password length
+        if (user.getPassword() == null || user.getPassword().length() < 6) {
+            model.addAttribute("error", "Password must be at least 6 characters long.");
+            model.addAttribute("user", user);
+            return "registration";
+        }
+        
+        // Validate full name
+        if (user.getFullName() == null || user.getFullName().trim().length() < 2) {
+            model.addAttribute("error", "Full name must be at least 2 characters long.");
+            model.addAttribute("user", user);
+            return "registration";
+        }
+        
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
-        return "redirect:/login";
+        return "redirect:/login?registered=true";
     }
 }

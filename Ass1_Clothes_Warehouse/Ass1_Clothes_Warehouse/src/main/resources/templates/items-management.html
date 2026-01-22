@@ -2,43 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Item Management</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" th:href="@{/styles/styles.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <div th:replace="fragments/header :: header"></div>
-    <h1>Item Management</h1>
+    
+    <div class="container">
+        <div class="hero-section">
+            <h1>Item Management</h1>
+        </div>
 
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Brand</th>
-            <th>Manufacture Year</th>
-            <th>Price</th>
-            <th>Actions</th>
-        </tr>
-        <tr th:each="item : ${items}">
-            <td th:text="${item.id}"></td>
-            <td th:text="${item.name}"></td>
-            <td th:text="${item.brand}"></td>
-            <td th:text="${item.year}"></td>
-            <td th:text="${item.price}"></td>
-            <td>
-                <form th:action="@{/admin/items/delete/{id}(id=${item.id})}" method="post">
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+        <div th:if="${items != null and not #lists.isEmpty(items)}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Manufacture Year</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${items}">
+                        <td th:text="${item.id}"></td>
+                        <td th:text="${item.name}"></td>
+                        <td th:text="${item.brand}"></td>
+                        <td th:text="${item.year}"></td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                        <td>
+                            <form th:action="@{/admin/items/delete/{id}(id=${item.id})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <!-- Pagination Controls -->
-    <div>
-        <a th:if="${page.hasPrevious()}" th:href="@{/admin/items-management(page=${page.number - 1}, size=${page.size})}">Previous</a>
-        <span th:text="${page.number + 1}"></span> / <span th:text="${page.totalPages}"></span>
-        <a th:if="${page.hasNext()}" th:href="@{/admin/items-management(page=${page.number + 1}, size=${page.size})}">Next</a>
+            <!-- Pagination Controls -->
+            <div class="pagination">
+                <a th:if="${page.hasPrevious()}" th:href="@{/admin/items-management(page=${page.number - 1}, size=${page.size}, sortBy=${param.sortBy})}">← Previous</a>
+                <span th:text="'Page ' + ${page.number + 1} + ' of ' + ${page.totalPages}"></span>
+                <a th:if="${page.hasNext()}" th:href="@{/admin/items-management(page=${page.number + 1}, size=${page.size}, sortBy=${param.sortBy})}">Next →</a>
+            </div>
+        </div>
+        
+        <div th:if="${items == null or #lists.isEmpty(items)}" class="alert alert-info">
+            <p>No items found in the database.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a th:href="@{/admin}" class="back-link">← Back to Admin Panel</a>
+        </div>
     </div>
-
-    <br>
-    <a href="/admin">Back to Admin Panel</a>
 </body>
 </html>

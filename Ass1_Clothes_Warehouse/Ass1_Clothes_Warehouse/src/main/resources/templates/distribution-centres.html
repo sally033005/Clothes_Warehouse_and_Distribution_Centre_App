@@ -3,82 +3,96 @@
 <head>
     <title>Distribution Centres</title>
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        .centres-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
         .centre-card {
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .centre-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
         .centre-header {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .centre-body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
             padding: 20px;
         }
-        .item-badge {
-            margin-right: 10px;
-            margin-bottom: 10px;
-            display: inline-block;
+        .centre-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        .centre-body {
+            padding: 25px;
         }
         .location-info {
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: var(--bg-light);
+            border-radius: 8px;
         }
-        .back-link {
-            margin-top: 20px;
+        .location-info::before {
+            content: "📍 ";
+        }
+        .item-badge {
+            margin: 8px 8px 8px 0;
             display: inline-block;
+        }
+        .items-section h5 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
         }
     </style>
 </head>
 <body>
     <header th:replace="fragments/header :: header"></header>
 
-    <div class="container mt-4">
-        <h1 class="mb-4">Distribution Centres</h1>
+    <div class="container">
+        <div class="hero-section">
+            <h1>Distribution Centres</h1>
+        </div>
 
         <!-- Success/Error Messages -->
-        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <div th:if="${success}" class="alert alert-success">
             <span th:text="${success}"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
-        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div th:if="${error}" class="alert alert-danger">
             <span th:text="${error}"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
 
-        <div th:if="${centres.isEmpty()}" class="alert alert-info">
+        <div th:if="${centres == null or centres.isEmpty()}" class="alert alert-info">
             <p>No distribution centres available.</p>
         </div>
 
-        <div class="row" th:if="${not #lists.isEmpty(centres)}">
-            <div class="col-md-6 col-lg-4" th:each="centre : ${centres}">
-                <div class="card centre-card">
-                    <div class="centre-header">
-                        <h3 class="card-title" th:text="${centre.name}">Distribution Centre Name</h3>
+        <div class="centres-grid" th:if="${centres != null and not #lists.isEmpty(centres)}">
+            <div class="centre-card" th:each="centre : ${centres}">
+                <div class="centre-header">
+                    <h3 th:text="${centre.name}">Distribution Centre Name</h3>
+                </div>
+                <div class="centre-body">
+                    <div class="location-info">
+                        <span th:text="${#numbers.formatDecimal(centre.latitude, 1, 4)} + ', ' + ${#numbers.formatDecimal(centre.longitude, 1, 4)}">Location</span>
                     </div>
-                    <div class="centre-body">
-                        <div class="location-info">
-                            <i class="fas fa-map-marker-alt"></i> 
-                            <span th:text="${#numbers.formatDecimal(centre.latitude, 1, 4)} + ', ' + ${#numbers.formatDecimal(centre.longitude, 1, 4)}">Location</span>
-                        </div>
-                        
+                    
+                    <div class="items-section">
                         <h5>Available Items:</h5>
-                        <div th:if="${#lists.isEmpty(centre.itemsAvailable)}" class="text-muted">
+                        <div th:if="${centre.itemsAvailable == null or #lists.isEmpty(centre.itemsAvailable)}" style="color: var(--text-light); font-style: italic;">
                             No items available
                         </div>
-                        <div th:each="item : ${centre.itemsAvailable}" class="item-badge">
-                            <span class="badge badge-primary" style="font-size: 0.9rem; padding: 8px 12px;">
+                        <div th:if="${centre.itemsAvailable != null and not #lists.isEmpty(centre.itemsAvailable)}">
+                            <span th:each="item : ${centre.itemsAvailable}" class="badge badge-primary">
                                 <span th:text="${item.name}">Item Name</span> 
                                 (<span th:text="${item.brand}">Brand</span>) - 
                                 <span th:text="${item.quantity}">Quantity</span>
@@ -89,12 +103,9 @@
             </div>
         </div>
 
-        <a th:href="@{/admin}" class="btn btn-secondary back-link">← Back to Admin Dashboard</a>
+        <div style="text-align: center; margin-top: 40px;">
+            <a th:href="@{/admin}" class="back-link">← Back to Admin Dashboard</a>
+        </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 </html>

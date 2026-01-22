@@ -1,12 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Home - Sally's Clothes Warehouse</title>
+    <link rel="stylesheet" th:href="@{/styles/styles.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-<div th:replace="fragments/header :: header"></div>
-<h1>Welcome to Fa Yuen (Garden) Boutique</h1>
-<img class="pic" th:src="@{/images/clothes.jpg}">
+    <div th:replace="fragments/header :: header"></div>
+    
+    <div class="container">
+        <div class="hero-section">
+            <h1>Welcome to Sally's Clothes Warehouse</h1>
+            <p>Your premier destination for luxury fashion items. Browse our curated collection of high-end clothing from top brands.</p>
+            <div style="margin-top: 30px;">
+                <a th:href="@{/items}" class="btn">Browse Items</a>
+                <a th:href="@{/registration}" class="btn btn-secondary" style="margin-left: 15px;" sec:authorize="isAnonymous()">Get Started</a>
+            </div>
+        </div>
+        
+        <div class="card" style="text-align: center;">
+            <h2>Featured Collection</h2>
+            <p style="color: var(--text-light); margin-bottom: 30px;">Discover our premium selection of designer clothing</p>
+            <img class="pic" th:src="@{/images/clothes.jpg}" alt="Luxury Clothing Collection">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
+            <div class="card">
+                <h3>Premium Brands</h3>
+                <p>Shop from top luxury brands including Balenciaga, Stone Island, and Dior.</p>
+            </div>
+            <div class="card">
+                <h3>Quality Guaranteed</h3>
+                <p>All items are authentic and carefully curated for our customers.</p>
+            </div>
+            <div class="card">
+                <h3>Easy Management</h3>
+                <p>Streamlined inventory management for warehouse employees and administrators.</p>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
