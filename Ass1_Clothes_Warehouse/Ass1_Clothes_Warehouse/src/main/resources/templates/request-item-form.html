@@ -9,11 +9,14 @@
     <header th:replace="fragments/header :: header"></header>
 
     <div class="container">
+        <div class="hero-section">
+            <h1>Request Item</h1>
+        </div>
         <div style="max-width: 600px; margin: 0 auto;">
             <div class="card">
-                <div class="card-header">
+                <!-- <div class="card-header">
                     <h2 style="text-align: center; margin: 0; color: white;">Request Item</h2>
-                </div>
+                </div> -->
                 <div style="padding: 30px;">
                     <!-- Success/Error Messages -->
                     <div th:if="${success}" class="alert alert-success">
@@ -50,8 +53,8 @@
                             <small style="color: var(--text-light); font-size: 14px;">Minimum quantity is 1</small>
                         </div>
                         
-                        <div class="form-group" style="text-align: center; margin-top: 30px;">
-                            <button type="submit" class="btn" style="margin-right: 15px;">Submit Request</button>
+                        <div class="form-group">
+                            <button type="submit" class="btn">Submit Request</button>
                             <a th:href="@{/admin}" class="btn btn-secondary">Back to Dashboard</a>
                         </div>
                     </form>
