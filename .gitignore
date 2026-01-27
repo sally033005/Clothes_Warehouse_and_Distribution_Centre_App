@@ -1,0 +1,41 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Build Artifacts
+target/
+**/target/
+build/
+**/build/
+*.jar
+*.war
+*.ear
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.secret
+*.pem
+*.key
+
+# Docker
+postgres_data/
+
+# Logs
+*.log
+logs/
+
+# Temporary Files
+tmp/
+temp/
