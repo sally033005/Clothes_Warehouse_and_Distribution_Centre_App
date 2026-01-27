@@ -814,6 +814,30 @@ tr:last-child td {
     box-shadow: var(--shadow-lg);
 }
 
+/* Mobile Navigation Components */
+.menu-toggle {
+    display: none;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 1001;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     h1 {
@@ -827,27 +851,89 @@ tr:last-child td {
 
 @media (max-width: 768px) {
     .navbar {
-        padding: 15px 20px;
+        padding: 0 20px;
+        height: 70px;
+    }
+
+    .logo {
+        display: none;
+        /* Remove Branding Text on Mobile */
+    }
+
+    .hamburger {
+        display: flex;
+        margin-left: auto;
+        /* Align to right */
     }
 
     .nav-list {
         display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--text-primary);
+        flex-direction: column;
+        gap: 0;
+        padding: 10px 0;
+        box-shadow: var(--shadow-md);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* Mobile menu simplified for now */
+    .nav-list li {
+        width: 100%;
+    }
+
+    .nav-list li a {
+        display: block;
+        padding: 15px 30px;
+        font-size: 0.85rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .user-welcome {
+        padding: 15px 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--accent-teal);
+        font-weight: 600;
+    }
+
+    .logout-form {
+        padding: 15px 30px;
+    }
+
+    /* Checkbox Hack Logic */
+    .menu-toggle:checked~.nav-list {
+        display: flex;
+    }
+
+    /* Hamburger Animation */
+    .menu-toggle:checked+.hamburger span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-toggle:checked+.hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle:checked+.hamburger span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Hero & Sections Adjustment */
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2.25rem;
     }
 
     .hero-section {
         height: auto;
-        min-height: 180px;
+        min-height: 160px;
         padding: 40px 20px;
     }
 
     .hero-home {
-        height: 60vh;
-        min-height: 400px;
+        height: 50vh;
+        min-height: 350px;
     }
 
     .card {
@@ -855,7 +941,7 @@ tr:last-child td {
     }
 
     .product-image-wrapper {
-        height: 300px;
+        height: 250px;
     }
 }
 
