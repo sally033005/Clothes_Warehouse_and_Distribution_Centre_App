@@ -8,86 +8,83 @@
 </head>
 
 <body>
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
 
     <div class="container">
-        <div class="hero-section">
-            <h1>Add Item</h1>
+
+        <!-- Success Message -->
+        <div th:if="${success}" class="alert alert-success">
+            <p th:text="${success}"></p>
         </div>
 
-    <!-- Success Message -->
-    <div th:if="${success}" class="alert alert-success">
-        <p th:text="${success}"></p>
-    </div>
-
-    <!-- Error Messages -->
-    <div th:if="${errors}" class="alert alert-danger">
-        <ul style="margin: 0; padding-left: 20px;">
-            <li th:each="error : ${errors}" th:text="${error}"></li>
-        </ul>
-    </div>
-
-    <!-- Item Form -->
-    <form th:action="@{/add-item}" th:object="${item}" method="post" class="card">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" th:field="*{name}" required minlength="2">
-            <small style="color: var(--text-light); font-size: 14px;">Name must be at least 2 characters</small>
+        <!-- Error Messages -->
+        <div th:if="${errors}" class="alert alert-danger">
+            <ul style="margin: 0; padding-left: 20px;">
+                <li th:each="error : ${errors}" th:text="${error}"></li>
+            </ul>
         </div>
 
-        <div class="form-group">
-            <label for="brand">Brand:</label>
-            <select id="brand" th:field="*{brand}" required>
-                <option value="">Select a brand</option>
-                <option th:each="brand : ${brands}" th:value="${brand}" th:text="${brand}"></option>
-            </select>
+        <!-- Item Form -->
+        <form th:action="@{/add-item}" th:object="${item}" method="post" class="card">
+            <h1 style="text-align: center; margin-bottom: 30px; color: var(--text-primary); font-size: 2rem;">Add Item
+            </h1>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" th:field="*{name}" required minlength="2">
+                <small style="color: var(--text-light); font-size: 14px;">Name must be at least 2 characters</small>
+            </div>
+
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <select id="brand" th:field="*{brand}" required>
+                    <option value="">Select a brand</option>
+                    <option th:each="brand : ${brands}" th:value="${brand}" th:text="${brand}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year of Creation:</label>
+                <input type="number" id="year" th:field="*{year}" th:value="${item.year}" required min="2022">
+                <small style="color: var(--text-light); font-size: 14px;">Year must be greater than 2021</small>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" th:field="*{price}" th:value="${item.price}" required min="1001"
+                    step="0.01">
+                <small style="color: var(--text-light); font-size: 14px;">Price must be more than $1000</small>
+            </div>
+
+            <div class="form-group" style="text-align: center;">
+                <button type="submit" class="btn">Add Item</button>
+            </div>
+        </form>
+
+        <hr>
+
+        <!-- Show table only if there are items in stock -->
+        <div th:if="${items != null and not #lists.isEmpty(items)}" class="card" style="margin-top: 30px;">
+            <h3>Recent Stock Items</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Year</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${items}">
+                        <td th:text="${item.name}"></td>
+                        <td th:text="${item.brand}"></td>
+                        <td th:text="${item.year}"></td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="form-group">
-            <label for="year">Year of Creation:</label>
-            <input type="number" id="year" th:field="*{year}" th:value="${item.year}" required min="2022">
-            <small style="color: var(--text-light); font-size: 14px;">Year must be greater than 2021</small>
-        </div>
-
-        <div class="form-group">
-            <label for="price">Price:</label>
-            <input type="number" id="price" th:field="*{price}" th:value="${item.price}" required min="1001" step="0.01">
-            <small style="color: var(--text-light); font-size: 14px;">Price must be more than $1000</small>
-        </div>
-
-        <div class="form-group" style="text-align: center;">
-            <button type="submit" class="btn">Add Item</button>
-        </div>
-    </form>
-
-    <hr>
-
-    <!-- Show table only if there are items in stock -->
-    <div th:if="${items != null and not #lists.isEmpty(items)}" class="card" style="margin-top: 30px;">
-        <h3>Recent Stock Items</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Brand</th>
-                    <th>Year</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="item : ${items}">
-                    <td th:text="${item.name}"></td>
-                    <td th:text="${item.brand}"></td>
-                    <td th:text="${item.year}"></td>
-                    <td th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="card" style="text-align: center; margin-top: 30px;">
-        <img th:src="@{/images/tshirt.jpg}" class="pic" alt="T-Shirt Collection">
-    </div>
     </div>
 </body>
 
