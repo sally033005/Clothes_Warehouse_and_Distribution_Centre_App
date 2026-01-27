@@ -24,10 +24,9 @@
                 <h1 class="hero-title">Redefine Your Style</h1>
                 <p class="hero-subtitle">Experience the pinnacle of luxury with our curated collection of high-end
                     fashion.</p>
-                <div>
+                <div class="hero-actions">
                     <a th:href="@{/items}" class="btn btn-primary">Shop Collection</a>
-                    <a th:href="@{/registration}" class="btn btn-light" style="margin-left: 20px;"
-                        sec:authorize="isAnonymous()">Join Exclusive</a>
+                    <a th:href="@{/registration}" class="btn btn-light" sec:authorize="isAnonymous()">Join Exclusive</a>
                 </div>
             </div>
         </div>

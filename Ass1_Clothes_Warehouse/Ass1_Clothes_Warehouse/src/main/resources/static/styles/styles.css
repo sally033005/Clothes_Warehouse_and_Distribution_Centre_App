@@ -107,15 +107,20 @@ a {
 }
 
 .logo {
-    color: var(--white);
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
-.logo:hover {
-    color: var(--accent-teal);
+.logo-img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.logo:hover .logo-img {
+    transform: scale(1.05);
 }
 
 .nav-list {
@@ -255,6 +260,12 @@ a {
     z-index: 3;
     max-width: 800px;
     padding: 40px;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 .hero-title {
@@ -855,9 +866,9 @@ tr:last-child td {
         height: 70px;
     }
 
-    .logo {
-        display: none;
-        /* Remove Branding Text on Mobile */
+    .logo-img {
+        height: 35px;
+        /* Slightly smaller logo on mobile */
     }
 
     .hamburger {
@@ -923,6 +934,23 @@ tr:last-child td {
     /* Hero & Sections Adjustment */
     .hero-title {
         font-size: 2.25rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        max-width: 320px;
+        padding: 14px 20px;
     }
 
     .hero-section {
