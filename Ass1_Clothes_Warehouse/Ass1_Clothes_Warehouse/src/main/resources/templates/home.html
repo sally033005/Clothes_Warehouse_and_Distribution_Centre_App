@@ -1,44 +1,109 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
     <title>Home - Sally's Clothes Warehouse</title>
+    <!-- Modern Font: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" th:href="@{/styles/styles.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <div th:replace="fragments/header :: header"></div>
-    
+    <div th:replace="~{fragments/header :: header}"></div>
+
     <div class="container">
-        <div class="hero-section">
-            <h1>Welcome to Sally's Clothes Warehouse</h1>
-            <p>Your premier destination for luxury fashion items. Browse our curated collection of high-end clothing from top brands.</p>
-            <div style="margin-top: 30px;">
-                <a th:href="@{/items}" class="btn">Browse Items</a>
-                <a th:href="@{/registration}" class="btn btn-secondary" style="margin-left: 15px;" sec:authorize="isAnonymous()">Get Started</a>
+        <!-- Hero Section -->
+        <div class="hero-section hero-home">
+            <img th:src="@{/images/hero-bg.png}" alt="Luxury Boutique" class="hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Redefine Your Style</h1>
+                <p class="hero-subtitle">Experience the pinnacle of luxury with our curated collection of high-end
+                    fashion.</p>
+                <div>
+                    <a th:href="@{/items}" class="btn btn-primary">Shop Collection</a>
+                    <a th:href="@{/registration}" class="btn btn-light" style="margin-left: 20px;"
+                        sec:authorize="isAnonymous()">Join Exclusive</a>
+                </div>
             </div>
         </div>
-        
-        <div class="card" style="text-align: center;">
-            <h2>Featured Collection</h2>
-            <p style="color: var(--text-light); margin-bottom: 30px;">Discover our premium selection of designer clothing</p>
-            <img class="pic" th:src="@{/images/clothes.jpg}" alt="Luxury Clothing Collection">
+
+        <!-- Featured Collection -->
+        <div class="featured-section">
+            <h2 class="section-title">Featured Collection</h2>
+            <p class="section-subtitle">Discover our season's most coveted highlights, selected for the discerning few.
+            </p>
+
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img th:src="@{/images/handbag-1.png}" alt="Classic Leather Handbag" class="product-image">
+                    </div>
+                    <div class="product-details">
+                        <div>
+                            <h3 class="product-title">Classic Noir Handbag</h3>
+                            <p class="product-desc">Timeless elegance crafted from full-grain Italian leather.</p>
+                        </div>
+                        <div class="product-price">$2,450</div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img th:src="@{/images/handbag-2.png}" alt="Teal Accent Tote" class="product-image">
+                    </div>
+                    <div class="product-details">
+                        <div>
+                            <h3 class="product-title">Azure Heritage Tote</h3>
+                            <p class="product-desc">A bold statement piece with our signature teal accents.</p>
+                        </div>
+                        <div class="product-price">$3,100</div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img th:src="@{/images/handbag-3.png}" alt="Structured Charcoal Bag" class="product-image">
+                    </div>
+                    <div class="product-details">
+                        <div>
+                            <h3 class="product-title">Slate Structured Bag</h3>
+                            <p class="product-desc">Modern architecture meets functional luxury.</p>
+                        </div>
+                        <div class="product-price">$2,890</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
-            <div class="card">
-                <h3>Premium Brands</h3>
-                <p>Shop from top luxury brands including Balenciaga, Stone Island, and Dior.</p>
-            </div>
-            <div class="card">
-                <h3>Quality Guaranteed</h3>
-                <p>All items are authentic and carefully curated for our customers.</p>
-            </div>
-            <div class="card">
-                <h3>Easy Management</h3>
-                <p>Streamlined inventory management for warehouse employees and administrators.</p>
+
+        <!-- Features Grid -->
+        <div class="features-section">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">✨</span>
+                    <h3 class="feature-title">Authenticity Guaranteed</h3>
+                    <p class="feature-desc">Every item passes through our rigorous multi-point inspection process to
+                        ensure absolute authenticity.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🌍</span>
+                    <h3 class="feature-title">Global Sourcing</h3>
+                    <p class="feature-desc">We scour the globe to bring you exclusive pieces from the world's most
+                        renowned fashion houses.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🛡️</span>
+                    <h3 class="feature-title">Secure Investment</h3>
+                    <p class="feature-desc">Shop with confidence knowing your purchase is protected by our comprehensive
+                        warranty and care plans.</p>
+                </div>
             </div>
         </div>
     </div>

@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Controller
 public class ItemController {
 
@@ -29,7 +30,7 @@ public class ItemController {
         item.setPrice(1001);
         model.addAttribute("item", item);
         model.addAttribute("brands", BRANDS);
-        return "add-item"; 
+        return "add-item";
     }
 
     @PostMapping("/add-item")
@@ -57,24 +58,26 @@ public class ItemController {
 
         itemRepository.save(item);
         model.addAttribute("success", "Item added successfully!");
-        return "redirect:/items"; 
+        return "redirect:/items";
     }
 
     @GetMapping("/items")
     public String listItems(Model model, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(defaultValue = "12") int size,
             @RequestParam(defaultValue = "name") String sortBy) {
         Page<Item> itemPage = itemRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sortBy)));
         model.addAttribute("items", itemPage.getContent());
         model.addAttribute("page", itemPage);
-        return "item-list"; 
+        model.addAttribute("selectedBrand", "All");
+        return "item-list";
     }
 
     @GetMapping("/items/brand/{brand}")
     public String getItemsByBrand(@PathVariable String brand, Model model) {
-        List<Item> items = itemRepository.findByBrandAndYear2022(brand);
+        List<Item> items = itemRepository.findByBrand(brand);
         model.addAttribute("items", items);
-        return "item-list"; 
+        model.addAttribute("selectedBrand", brand);
+        return "item-list";
     }
 
     @DeleteMapping("/items/{id}")
@@ -88,12 +91,12 @@ public class ItemController {
     @GetMapping("/items-management")
     @PreAuthorize("hasRole('ADMIN')")
     public String showItemManagement(Model model, @RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "5") int size,
-                                     @RequestParam(defaultValue = "name") String sortBy) {
+            @RequestParam(defaultValue = "12") int size,
+            @RequestParam(defaultValue = "name") String sortBy) {
         Page<Item> itemPage = itemRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sortBy)));
         model.addAttribute("items", itemPage.getContent());
         model.addAttribute("page", itemPage);
-        return "items-management"; 
+        return "items-management";
     }
 
 }

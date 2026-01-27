@@ -8,51 +8,71 @@
 </head>
 
 <body>
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
     <div class="container">
-        <div class="hero-section">
+        <!-- Refined Hero Section -->
+        <div class="hero-items">
             <h1>Items List</h1>
         </div>
 
-    <div th:if="${items != null}">
-        <div class="filter-buttons">
-            <a th:href="@{/items}" class="btn">Show All Items</a>
-            <a th:href="@{/items/brand/BALENCIAGA}" class="btn">Show Balenciaga Items for 2022</a>
-            <a th:href="@{/items/brand/STONE_ISLAND}" class="btn">Show Stone Island Items for 2022</a>
-            <a th:href="@{/items/brand/DIOR}" class="btn">Show Dior Items for 2022</a>
-        </div>
+        <div th:if="${items != null}">
+            <!-- Filter Bar -->
+            <div class="filter-bar" style="justify-content: flex-start; align-items: center;">
+                <label for="brandFilter" style="margin: 0; margin-right: 15px; font-weight: 600;">Filter by
+                    Brand:</label>
+                <div class="filter-select-wrapper">
+                    <select id="brandFilter" class="filter-select" onchange="window.location.href=this.value">
+                        <option value="/items" th:selected="${selectedBrand == 'All'}">All Brands</option>
+                        <option value="/items/brand/BALENCIAGA" th:selected="${selectedBrand == 'BALENCIAGA'}">
+                            Balenciaga</option>
+                        <option value="/items/brand/STONE_ISLAND" th:selected="${selectedBrand == 'STONE_ISLAND'}">Stone
+                            Island</option>
+                        <option value="/items/brand/DIOR" th:selected="${selectedBrand == 'DIOR'}">Dior</option>
+                    </select>
+                </div>
+            </div>
 
-        <table th:if="${not #lists.isEmpty(items)}">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Brand</th>
-                    <th>Year</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="item : ${items}">
-                    <td th:text="${item.name}"></td>
-                    <td th:text="${item.brand}"></td>
-                    <td th:text="${item.year}"></td>
-                    <td th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div th:if="${#lists.isEmpty(items)}" class="alert alert-info">
-            <p>No items found. Please try a different filter.</p>
-        </div>
+            <table th:if="${not #lists.isEmpty(items)}">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Image</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Year</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${items}">
+                        <td>
+                            <!-- Cyclical thumbnails based on ID -->
+                            <img th:src="@{'/images/handbag-' + (${item.id % 3 + 1}) + '.png'}" alt="Item Thumbnail"
+                                class="product-thumbnail">
+                        </td>
+                        <td th:text="${item.name}"></td>
+                        <td th:text="${item.brand}"></td>
+                        <td th:text="${item.year}"></td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <div class="pagination" th:if="${page != null}">
-            <a th:href="@{/items(page=${page.number - 1}, size=${page.size}, sortBy=${param.sortBy})}" 
-               th:if="${page.hasPrevious()}">← Previous</a>
-            <span th:text="'Page ' + ${page.number + 1} + ' of ' + ${page.totalPages}"></span>
-            <a th:href="@{/items(page=${page.number + 1}, size=${page.size}, sortBy=${param.sortBy})}" 
-               th:if="${page.hasNext()}">Next →</a>
+            <div th:if="${#lists.isEmpty(items)}" class="alert alert-info">
+                <p>No items found. Please try a different filter.</p>
+            </div>
+
+            <!-- Pagination UI -->
+            <div class="pagination" th:if="${page != null}">
+                <a th:href="@{/items(page=${page.number - 1}, size=${page.size}, sortBy=${param.sortBy})}"
+                    th:if="${page.hasPrevious()}">&laquo;</a>
+
+                <!-- Simple current page indicator -->
+                <span th:text="${page.number + 1}"></span>
+
+                <a th:href="@{/items(page=${page.number + 1}, size=${page.size}, sortBy=${param.sortBy})}"
+                    th:if="${page.hasNext()}">&raquo;</a>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>

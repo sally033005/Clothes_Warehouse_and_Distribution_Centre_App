@@ -13,6 +13,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT i FROM Item i WHERE i.brand = ?1 AND i.year = 2022")
     List<Item> findByBrandAndYear2022(String brand);
 
+    // Generic find by brand (no year constraint)
+    List<Item> findByBrand(String brand);
+
     // New: for dropdown in request form
     @Query("SELECT DISTINCT i.brand FROM Item i")
     List<String> findDistinctBrands();

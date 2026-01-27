@@ -8,50 +8,45 @@
 
 <body>
 
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
     <div class="container">
-        <div class="hero-section">
-            <h1>Login</h1>
-        </div>
-
-        <div th:if="${param.error}" class="alert alert-danger">
+        <div th:if="${param.error}" class="alert alert-danger" style="max-width: 450px; margin: 0 auto 20px;">
             <p>Invalid username or password. Please try again.</p>
         </div>
-        <div th:if="${param.logout}" class="alert alert-success">
+        <div th:if="${param.logout}" class="alert alert-success" style="max-width: 450px; margin: 0 auto 20px;">
             <p>You have been logged out successfully.</p>
         </div>
-        <div th:if="${param.registered}" class="alert alert-success">
+        <div th:if="${param.registered}" class="alert alert-success" style="max-width: 450px; margin: 0 auto 20px;">
             <p>Registration successful! Please login with your credentials.</p>
         </div>
 
+        <form method="POST" th:action="@{/login}" id="loginForm" class="card" style="margin-top: 40px;">
+            <h1 style="text-align: center; margin-bottom: 30px; color: var(--text-primary); font-size: 2rem;">Login</h1>
 
-
-        <form method="POST" th:action="@{/login}" id="loginForm" class="card">
-            <div class="form-group">
-                <p>New here? Click
-                    <a th:href="@{/registration}">here</a> to register.
-                </p>
+            <div class="form-group" style="text-align: center;">
+                <p style="margin-bottom: 0;">New here? <a th:href="@{/registration}"
+                        style="color: var(--accent-teal); font-weight: 600;">Register here</a></p>
             </div>
 
             <div class="form-group">
-                <label for="username">Username: </label>
+                <label for="username">Username</label>
                 <input type="text" name="username" id="username" required />
             </div>
 
             <div class="form-group">
-                <label for="password">Password: </label>
+                <label for="password">Password</label>
                 <input type="password" name="password" id="password" required />
             </div>
 
             <div class="form-group">
-                <label style="display: flex; align-items: center; cursor: pointer;">
+                <label style="display: flex; align-items: center; cursor: pointer; justify-content: flex-start;">
                     <input type="checkbox" name="remember-me" style="width: auto; margin-right: 10px;" />
                     <span>Remember Me</span>
                 </label>
             </div>
 
-            <div class="form-group" style="text-align: center;">
-                <input type="submit" value="Login" class="btn" />
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn" style="width: 100%;" />
             </div>
         </form>
     </div>
