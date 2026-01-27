@@ -24,11 +24,17 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @org.springframework.beans.factory.annotation.Value("${MANAGER_USERNAME:manager}")
+    private String username;
+
+    @org.springframework.beans.factory.annotation.Value("${MANAGER_PASSWORD:password}")
+    private String password;
+
     @Bean
     public UserDetailsService users() {
         return new InMemoryUserDetailsManager(
-                User.withUsername("manager")
-                        .password("{noop}password") // {noop} means no encoding for simplicity
+                User.withUsername(username)
+                        .password("{noop}" + password) // {noop} means no encoding for simplicity
                         .roles("MANAGER")
                         .build()
         );

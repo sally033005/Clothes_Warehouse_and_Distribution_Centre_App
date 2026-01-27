@@ -32,7 +32,8 @@ public class AdminController {
     private final ItemRepository itemRepository;
     private final RestTemplate restTemplate;
 
-    private static final String DC_API_BASE_URL = "http://localhost:8081/api";
+    @org.springframework.beans.factory.annotation.Value("${distribution.centre.url:http://localhost:8081/api}")
+    private String dcApiBaseUrl;
 
     public AdminController(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -63,7 +64,7 @@ public class AdminController {
 
     @GetMapping("/distribution-centres")
     public String viewDistributionCentres(Model model) {
-        String url = "http://localhost:8081/api/distribution-centres";
+        String url = dcApiBaseUrl + "/distribution-centres";
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("manager", "password");
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -73,8 +74,6 @@ public class AdminController {
 
         List<Object> centres = Arrays.asList(response.getBody());
 
-        // ADD THIS LINE for testing
-        System.out.println("Fetched Centres from API: " + centres);
 
         model.addAttribute("centres", centres);
         return "distribution-centres";
@@ -82,7 +81,7 @@ public class AdminController {
 
     @GetMapping("/request-item")
     public String showRequestItemForm(Model model) {
-        String url = DC_API_BASE_URL + "/distribution-centres";
+        String url = dcApiBaseUrl + "/distribution-centres";
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("manager", "password");
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -118,7 +117,7 @@ public class AdminController {
                             @RequestParam int quantity,
                             RedirectAttributes redirectAttributes) {
         // First, get all distribution centres
-        String centresUrl = DC_API_BASE_URL + "/distribution-centres";
+        String centresUrl = dcApiBaseUrl + "/distribution-centres";
         
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("manager", "password");
@@ -185,7 +184,7 @@ public class AdminController {
                 
                 if (requestFromCentre > 0) {
                     // Make the request to this distribution centre
-                    String requestUrl = DC_API_BASE_URL + "/distribution-centres/request-item";
+                    String requestUrl = dcApiBaseUrl + "/distribution-centres/request-item";
                     headers.setContentType(MediaType.APPLICATION_JSON);
 
                     Map<String, Object> requestBody = new HashMap<>();
