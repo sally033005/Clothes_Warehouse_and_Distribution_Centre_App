@@ -48,4 +48,5 @@ The `init.sql` file in your repository is not automatically executed on Railway'
 ## 4. Troubleshooting
 
 - **CrashLoopBackOff / Connection Refused**: This means the app cannot connect to the database. Check your `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` variables.
+- **Application Startup Failure**: If `DB_URL` is missing, the application will now fail to start with a clear error about the missing property. Ensure it is set!
 - **Port Errors**: Ensure your app listens on `0.0.0.0` and the port defined by `$PORT`. We updated `application.properties` to handle this.
