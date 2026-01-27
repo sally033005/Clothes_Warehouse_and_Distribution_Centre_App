@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DistributionCentreRepository extends JpaRepository<DistributionCentre, Long> {
     DistributionCentre findByName(String name);
+
+    boolean existsByName(String name);
 }

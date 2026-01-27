@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Distribution Centres</title>
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
@@ -7,55 +8,71 @@
     <style>
         .centres-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
-            margin: 30px 0;
+            margin: 40px 0;
         }
+
         .centre-card {
-            background: var(--bg-white);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            background: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
+
         .centre-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
         }
+
         .centre-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 20px;
+            padding: 25px;
+            border-bottom: 1px solid var(--border-light);
+            background: #F9FAFB;
         }
+
         .centre-header h3 {
-            color: white;
             margin: 0;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
+            color: var(--text-primary);
         }
+
         .centre-body {
             padding: 25px;
+            flex-grow: 1;
         }
+
         .location-info {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: var(--bg-light);
-            border-radius: 8px;
-        }
-        .location-info::before {
-            content: "📍 ";
-        }
-        .item-badge {
-            margin: 8px 8px 8px 0;
             display: inline-block;
+            color: var(--accent-teal);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding: 6px 14px;
+            background: rgba(0, 137, 123, 0.05);
+            border-radius: 50px;
         }
+
         .items-section h5 {
             margin-bottom: 15px;
-            color: var(--text-dark);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
     </style>
 </head>
+
 <body>
     <div th:replace="~{fragments/header :: header}"></div>
 
@@ -83,18 +100,21 @@
                 </div>
                 <div class="centre-body">
                     <div class="location-info">
-                        <span th:text="${#numbers.formatDecimal(centre.latitude, 1, 4)} + ', ' + ${#numbers.formatDecimal(centre.longitude, 1, 4)}">Location</span>
+                        <span
+                            th:text="${#numbers.formatDecimal(centre.latitude, 1, 4)} + ', ' + ${#numbers.formatDecimal(centre.longitude, 1, 4)}">Location</span>
                     </div>
-                    
+
                     <div class="items-section">
                         <h5>Available Items:</h5>
-                        <div th:if="${centre.itemsAvailable == null or #lists.isEmpty(centre.itemsAvailable)}" style="color: var(--text-light); font-style: italic;">
+                        <div th:if="${centre.itemsAvailable == null or #lists.isEmpty(centre.itemsAvailable)}"
+                            style="color: var(--text-light); font-style: italic;">
                             No items available
                         </div>
-                        <div th:if="${centre.itemsAvailable != null and not #lists.isEmpty(centre.itemsAvailable)}">
+                        <div th:if="${centre.itemsAvailable != null and not #lists.isEmpty(centre.itemsAvailable)}"
+                            class="badge-list">
                             <span th:each="item : ${centre.itemsAvailable}" class="badge badge-primary">
-                                <span th:text="${item.name}">Item Name</span> 
-                                (<span th:text="${item.brand}">Brand</span>) - 
+                                <span th:text="${item.name}">Item Name</span>
+                                (<span th:text="${item.brand}">Brand</span>) -
                                 <span th:text="${item.quantity}">Quantity</span>
                             </span>
                         </div>
@@ -103,9 +123,10 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 40px;">
+        <div class="text-center mt-4">
             <a th:href="@{/admin}" class="back-link">← Back to Admin Dashboard</a>
         </div>
     </div>
 </body>
+
 </html>

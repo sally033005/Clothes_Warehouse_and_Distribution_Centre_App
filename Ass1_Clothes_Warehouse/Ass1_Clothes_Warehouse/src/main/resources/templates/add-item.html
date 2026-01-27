@@ -60,7 +60,9 @@
             </div>
         </form>
 
-        <hr>
+        <div class="text-center mt-2">
+            <a th:href="@{/admin}" class="back-link">← Back to Admin Dashboard</a>
+        </div>
 
         <!-- Show table only if there are items in stock -->
         <div th:if="${items != null and not #lists.isEmpty(items)}" class="card" style="margin-top: 30px;">

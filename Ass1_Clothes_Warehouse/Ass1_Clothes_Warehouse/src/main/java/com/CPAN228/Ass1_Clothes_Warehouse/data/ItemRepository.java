@@ -23,5 +23,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT DISTINCT i.name FROM Item i")
     List<String> findDistinctNames();
 
+    boolean existsByNameAndBrandAndYear(String name, String brand, int year);
+
     Page<Item> findAll(Pageable pageable);
 }

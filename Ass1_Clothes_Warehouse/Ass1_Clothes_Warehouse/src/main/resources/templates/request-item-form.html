@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Request Item</title>
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <div th:replace="~{fragments/header :: header}"></div>
 
@@ -12,7 +14,8 @@
         <div style="max-width: 600px; margin: 0 auto;">
             <div class="card">
                 <div class="card-header">
-                    <h1 style="text-align: center; margin-bottom: 30px; color: var(--text-primary); font-size: 2rem;">Request Item</h1>
+                    <h1 style="text-align: center; margin-bottom: 30px; color: var(--text-primary); font-size: 2rem;">
+                        Request Item</h1>
                 </div>
                 <div style="padding: 30px;">
                     <!-- Success/Error Messages -->
@@ -28,36 +31,37 @@
                             <label for="itemName">Item Name</label>
                             <select id="itemName" name="itemName" required>
                                 <option value="">Select Item Name</option>
-                                <option th:each="item : ${items}"
-                                        th:value="${item.name}"
-                                        th:text="${item.name}">Item Name</option>
+                                <option th:each="item : ${items}" th:value="${item.name}" th:text="${item.name}">Item
+                                    Name</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="brand">Brand</label>
                             <select id="brand" name="brand" required>
                                 <option value="">Select Brand</option>
-                                <option th:each="item : ${items}"
-                                        th:value="${item.brand}"
-                                        th:text="${item.brand}">Brand</option>
+                                <option th:each="item : ${items}" th:value="${item.brand}" th:text="${item.brand}">Brand
+                                </option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="quantity">Quantity</label>
                             <input type="number" id="quantity" name="quantity" min="1" required>
                             <small style="color: var(--text-light); font-size: 14px;">Minimum quantity is 1</small>
                         </div>
-                        
-                        <div class="form-group">
+
+                        <div class="form-group" style="text-align: center;">
                             <button type="submit" class="btn">Submit Request</button>
-                            <a th:href="@{/admin}" class="btn btn-secondary">Back to Dashboard</a>
                         </div>
                     </form>
                 </div>
             </div>
+            <div class="text-center mt-4">
+                <a th:href="@{/admin}" class="back-link">← Back to Admin Dashboard</a>
+            </div>
         </div>
     </div>
 </body>
-</html> 
+
+</html>

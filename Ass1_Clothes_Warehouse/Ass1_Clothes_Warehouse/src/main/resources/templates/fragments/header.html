@@ -14,7 +14,7 @@
                         document.body.style.paddingTop = (headerHeight + 10) + 'px';
                     }
                 } else {
-                    document.body.style.paddingTop = '75px';
+                    document.body.style.paddingTop = '70px';
                 }
             }
 
@@ -29,6 +29,8 @@
 <body>
     <header class="navbar">
         <nav>
+            <a th:href="@{/}" class="logo">SALLY'S</a>
+
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
             <label for="menu-toggle" class="hamburger">
                 <span></span>
@@ -37,10 +39,6 @@
             </label>
 
             <ul class="nav-list">
-                <li sec:authorize="isAuthenticated()" class="user-info">
-                    <span th:text="'Welcome, ' + ${#authentication.name}"></span>
-                </li>
-
                 <li><a th:href="@{/}">Home</a></li>
                 <li><a th:href="@{/items}">Item List</a></li>
 
@@ -59,6 +57,10 @@
                 </li>
                 <li sec:authorize="hasRole('WAREHOUSE_EMPLOYEE')">
                     <a th:href="@{/add-item}">Add Item</a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()" class="user-welcome">
+                    <span th:text="'Welcome, ' + ${#authentication.name}"></span>
                 </li>
 
                 <li sec:authorize="isAuthenticated()">

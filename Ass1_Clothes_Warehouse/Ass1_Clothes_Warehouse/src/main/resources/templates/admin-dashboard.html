@@ -2,26 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Admin Panel</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
     <div th:replace="~{fragments/header :: header}"></div>
+
     <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Admin Dashboard</h1>
+        </div>
 
-    <div class="admin-container">
-        <h3>Welcome to the Admin Panel!</h3>
-        <p style="color: var(--text-light); margin-bottom: 30px;">Manage your warehouse operations efficiently</p>
+        <div class="admin-grid">
+            <!-- Item Management Card -->
+            <a th:href="@{/admin/items-management}" class="admin-card">
+                <i>📦</i>
+                <h3>Item Management</h3>
+                <p>View, track, and manage all clothing items in the warehouse.</p>
+            </a>
 
-        <ul>
-            <li><a th:href="@{/admin/items-management}">📦 Item Management</a></li>
-            <li><a th:href="@{/add-item}">➕ Add New Item</a></li>
-            <li><a th:href="@{/admin/distribution-centres}">🏢 View Distribution Centres</a></li>
-            <li><a th:href="@{/admin/request-item}">📋 Request Item</a></li>
-        </ul>
+            <!-- Add Item Card -->
+            <a th:href="@{/add-item}" class="admin-card">
+                <i>➕</i>
+                <h3>Add New Item</h3>
+                <p>Quickly add new stock to the warehouse inventory.</p>
+            </a>
 
+            <!-- Distribution Centres Card -->
+            <a th:href="@{/admin/distribution-centres}" class="admin-card">
+                <i>🏢</i>
+                <h3>Distribution Centres</h3>
+                <p>Monitor stock availability across all distribution locations.</p>
+            </a>
+
+            <!-- Request Item Card -->
+            <a th:href="@{/admin/request-item}" class="admin-card">
+                <i>📋</i>
+                <h3>Request Item</h3>
+                <p>Place a request for items from specific distribution centres.</p>
+            </a>
+        </div>
     </div>
 </body>
 
