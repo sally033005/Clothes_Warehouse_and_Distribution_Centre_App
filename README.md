@@ -28,55 +28,63 @@ A full-stack web application for managing a luxury clothing warehouse inventory 
   - Request items from distribution centres
 
 - **Modern UI/UX**
-  - Responsive design for all devices
-  - Modern CSS styling with gradients and animations
-  - Intuitive navigation and user feedback
-  - Form validation with real-time feedback
+  - Responsive design with a professional **Hamburger Menu** on mobile
+  - Luxury branding with high-quality imagery and consistent styling
+  - Animated interactions and intuitive navigation
 
 ## 🛠️ Tech Stack
 
 - **Backend**: Spring Boot 3.4.2, Java 17
 - **Security**: Spring Security with BCrypt password encoding
-- **Database**: H2 (development)
+- **Database**: PostgreSQL (Dockerized) / H2 (Development)
 - **ORM**: Spring Data JPA / Hibernate
 - **Frontend**: Thymeleaf templates, HTML5, CSS3
+- **Containerization**: Docker & Docker Compose
 - **Build Tool**: Maven
-- **Other**: Lombok, REST Template for API integration
 
 ## 📋 Prerequisites
 
-- Java 17 or higher
-- Maven 3.6+
-- (Optional) PostgreSQL for production deployment
+- Docker and Docker Compose
+- Java 17 or higher (for local development)
+- Maven 3.6+ (for local development)
 
-## 🔧 Setup Instructions
+## 🔧 Setup Instructions (Recommended: Docker)
+
+The easiest way to run the entire system (Warehouse App, Distribution Manager, and PostgreSQL) is using Docker Compose:
 
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd Ass1_Clothes_Warehouse
+   cd Clothes_Warehouse_and_Distribution_Centre_App
    ```
 
-2. **Build the project**
+2. **Run with Docker Compose**
    ```bash
-   mvn clean install
+   docker-compose up --build
    ```
 
-3. **Run the application**
+3. **Access the services**
+   - **Warehouse App**: http://localhost:8080
+   - **Distribution Manager**: http://localhost:8081
+
+4. **Database Initialization**
+   The `docker-compose` setup automatically initializes the required PostgreSQL databases. Data deduplication guards are in place to ensure a clean state on every startup.
+
+## 🔧 Local Development (Manual)
+
+If you prefer to run the applications individually:
+
+1. **Warehouse App**
    ```bash
+   cd Ass1_Clothes_Warehouse/Ass1_Clothes_Warehouse
    mvn spring-boot:run
    ```
 
-4. **Access the application**
-   - Main application: http://localhost:8080
-   - H2 Console: http://localhost:8080/h2-console
-     - JDBC URL: `jdbc:h2:file:./data/tekkenreborn`
-     - Username: `sa`
-     - Password: (leave empty)
-
-5. **Default Users**
-   - Register a new user through the registration page
-   - First user can be set as ADMIN role
+2. **Distribution Manager**
+   ```bash
+   cd distribution-centre-manager/distribution-centre-manager
+   mvn spring-boot:run
+   ```
 
 ## 🎯 User Roles
 
