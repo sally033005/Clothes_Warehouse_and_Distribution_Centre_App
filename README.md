@@ -2,7 +2,12 @@
 
 A full-stack web application for managing a luxury clothing warehouse inventory with role-based access control, built with Spring Boot.
 
+## 🌐 Live Demo
+
+Explore the application live on Railway: [Sally's Clothes Warehouse](https://ass1-clothes-warehouse-production.up.railway.app)
+
 ## 🚀 Features
+
 
 - **User Authentication & Authorization**
   - User registration with validation
