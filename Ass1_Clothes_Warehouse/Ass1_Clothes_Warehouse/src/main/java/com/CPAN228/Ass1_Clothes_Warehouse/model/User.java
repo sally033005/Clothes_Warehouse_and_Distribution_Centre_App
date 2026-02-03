@@ -11,9 +11,9 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name="users")
-@NoArgsConstructor 
-@AllArgsConstructor 
+@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,12 @@ public class User implements UserDetails {
 
     private String fullName;
     private String username;
-    private String password; 
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public void setPassword(String password) { 
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -36,19 +36,26 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isEnabled() { return true; }
+    public boolean isEnabled() {
+        return true;
+    }
 
     public enum Role {
-        ADMIN, WAREHOUSE_EMPLOYEE, USER
+        ADMIN, WAREHOUSE_EMPLOYEE
     }
 }
-
