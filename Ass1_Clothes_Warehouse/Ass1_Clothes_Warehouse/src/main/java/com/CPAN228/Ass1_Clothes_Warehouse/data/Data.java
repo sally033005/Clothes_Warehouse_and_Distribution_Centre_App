@@ -31,18 +31,12 @@ public class Data implements CommandLineRunner {
         }
 
         // Step 2: Seed initial items if they don't exist
-        saveIfNotExist(new Item("T-shirt", "BALENCIAGA", 2022, 1500));
-        saveIfNotExist(new Item("Sweater", "BALENCIAGA", 2025, 2100));
-        saveIfNotExist(new Item("Hoodie", "BALENCIAGA", 2024, 2200));
-        saveIfNotExist(new Item("Skirt", "BALENCIAGA", 2025, 1200));
-        saveIfNotExist(new Item("Jacket", "STONE_ISLAND", 2022, 2500));
-        saveIfNotExist(new Item("Shorts", "STONE_ISLAND", 2024, 1600));
-        saveIfNotExist(new Item("Jeans", "STONE_ISLAND", 2025, 2600));
-        saveIfNotExist(new Item("Dress", "STONE_ISLAND", 2024, 1600));
-        saveIfNotExist(new Item("Jacket", "DIOR", 2024, 2700));
-        saveIfNotExist(new Item("Jeans", "DIOR", 2022, 2000));
-        saveIfNotExist(new Item("T-shirt", "DIOR", 2025, 1200));
-        saveIfNotExist(new Item("Sweater", "DIOR", 2024, 1800));
+        saveIfNotExist(new Item("Summer T-Shirt", "Nike", 2022, 1200, 15));
+        saveIfNotExist(new Item("Performance Hoodie", "Adidas", 2023, 1500, 10));
+        saveIfNotExist(new Item("Original Jeans", "Levi's", 2022, 1100, 20));
+        saveIfNotExist(new Item("Winter Jacket", "The North Face", 2024, 2500, 5));
+        saveIfNotExist(new Item("Running Shoes", "Puma", 2024, 1300, 12));
+        saveIfNotExist(new Item("Training Shirt", "Under Armour", 2023, 1050, 18));
     }
 
     private void saveIfNotExist(Item item) {

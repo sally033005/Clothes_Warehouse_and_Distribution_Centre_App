@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByBrandAndName(String brand, String name);
+
+    boolean existsByNameAndBrandAndYear(String name, String brand, int year);
 }

@@ -40,17 +40,8 @@ public class DataInitializer implements CommandLineRunner {
             toronto.setLongitude(-79.3832);
 
             List<Item> torontoItems = new ArrayList<>();
-            Item item1 = new Item();
-            item1.setName("T-Shirt");
-            item1.setBrand("Nike");
-            item1.setQuantity(100);
-            torontoItems.add(item1);
-
-            Item item2 = new Item();
-            item2.setName("Jeans");
-            item2.setBrand("Levi's");
-            item2.setQuantity(50);
-            torontoItems.add(item2);
+            torontoItems.add(createItem("Summer T-Shirt", "Nike", 500, 2022, 1200));
+            torontoItems.add(createItem("Original Jeans", "Levi's", 300, 2022, 1100));
 
             toronto.setItemsAvailable(torontoItems);
             distributionCentreRepository.save(toronto);
@@ -64,17 +55,8 @@ public class DataInitializer implements CommandLineRunner {
             vancouver.setLongitude(-123.1207);
 
             List<Item> vancouverItems = new ArrayList<>();
-            Item item3 = new Item();
-            item3.setName("Hoodie");
-            item3.setBrand("Adidas");
-            item3.setQuantity(75);
-            vancouverItems.add(item3);
-
-            Item item4 = new Item();
-            item4.setName("Sneakers");
-            item4.setBrand("Puma");
-            item4.setQuantity(30);
-            vancouverItems.add(item4);
+            vancouverItems.add(createItem("Performance Hoodie", "Adidas", 400, 2023, 1500));
+            vancouverItems.add(createItem("Running Shoes", "Puma", 250, 2024, 1300));
 
             vancouver.setItemsAvailable(vancouverItems);
             distributionCentreRepository.save(vancouver);
@@ -88,17 +70,8 @@ public class DataInitializer implements CommandLineRunner {
             montreal.setLongitude(-73.5673);
 
             List<Item> montrealItems = new ArrayList<>();
-            Item item5 = new Item();
-            item5.setName("T-Shirt");
-            item5.setBrand("Nike");
-            item5.setQuantity(100);
-            montrealItems.add(item5);
-
-            Item item6 = new Item();
-            item6.setName("Socks");
-            item6.setBrand("Under Armour");
-            item6.setQuantity(200);
-            montrealItems.add(item6);
+            montrealItems.add(createItem("Summer T-Shirt", "Nike", 600, 2022, 1200));
+            montrealItems.add(createItem("Training Shirt", "Under Armour", 350, 2023, 1050));
 
             montreal.setItemsAvailable(montrealItems);
             distributionCentreRepository.save(montreal);
@@ -112,17 +85,8 @@ public class DataInitializer implements CommandLineRunner {
             calgary.setLongitude(-114.0719);
 
             List<Item> calgaryItems = new ArrayList<>();
-            Item item7 = new Item();
-            item7.setName("Jacket");
-            item7.setBrand("The North Face");
-            item7.setQuantity(40);
-            calgaryItems.add(item7);
-
-            Item item8 = new Item();
-            item8.setName("Boots");
-            item8.setBrand("Timberland");
-            item8.setQuantity(60);
-            calgaryItems.add(item8);
+            calgaryItems.add(createItem("Winter Jacket", "The North Face", 200, 2024, 2500));
+            calgaryItems.add(createItem("Performance Hoodie", "Adidas", 300, 2023, 1500));
 
             calgary.setItemsAvailable(calgaryItems);
             distributionCentreRepository.save(calgary);
@@ -136,20 +100,21 @@ public class DataInitializer implements CommandLineRunner {
             ottawa.setLongitude(-75.6972);
 
             List<Item> ottawaItems = new ArrayList<>();
-            Item item9 = new Item();
-            item9.setName("Sweater");
-            item9.setBrand("Ralph Lauren");
-            item9.setQuantity(45);
-            ottawaItems.add(item9);
-
-            Item item10 = new Item();
-            item10.setName("Hat");
-            item10.setBrand("New Era");
-            item10.setQuantity(80);
-            ottawaItems.add(item10);
+            ottawaItems.add(createItem("Original Jeans", "Levi's", 450, 2022, 1100));
+            ottawaItems.add(createItem("Running Shoes", "Puma", 200, 2024, 1300));
 
             ottawa.setItemsAvailable(ottawaItems);
             distributionCentreRepository.save(ottawa);
         }
+    }
+
+    private Item createItem(String name, String brand, int quantity, int year, double price) {
+        Item item = new Item();
+        item.setName(name);
+        item.setBrand(brand);
+        item.setQuantity(quantity);
+        item.setYear(year);
+        item.setPrice(price);
+        return item;
     }
 }

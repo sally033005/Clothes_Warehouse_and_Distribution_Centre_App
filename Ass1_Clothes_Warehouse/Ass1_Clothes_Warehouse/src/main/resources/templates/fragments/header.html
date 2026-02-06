@@ -53,13 +53,7 @@
                 </li>
 
                 <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/add-item}">Add Item</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/admin}">Admin Panel</a>
-                </li>
-                <li sec:authorize="hasRole('WAREHOUSE_EMPLOYEE')">
-                    <a th:href="@{/add-item}">Add Item</a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()" class="user-welcome">

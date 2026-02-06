@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
     <title>Items List</title>
@@ -17,33 +16,48 @@
 
         <div th:if="${items != null}">
             <!-- Filter Bar -->
-            <div class="filter-bar" style="justify-content: flex-start; align-items: center;">
-                <label for="brandFilter" style="margin: 0; margin-right: 15px; font-weight: 600;">Filter by
-                    Brand:</label>
-                <div class="filter-select-wrapper">
-                    <select id="brandFilter" class="filter-select" onchange="window.location.href=this.value">
-                        <option value="/items" th:selected="${selectedBrand == 'All'}">All Brands</option>
-                        <option value="/items/brand/BALENCIAGA" th:selected="${selectedBrand == 'BALENCIAGA'}">
-                            Balenciaga</option>
-                        <option value="/items/brand/STONE_ISLAND" th:selected="${selectedBrand == 'STONE_ISLAND'}">Stone
-                            Island</option>
-                        <option value="/items/brand/DIOR" th:selected="${selectedBrand == 'DIOR'}">Dior</option>
-                    </select>
+            <div class="filter-bar" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <label for="brandFilter" style="margin: 0; margin-right: 15px; font-weight: 600;">Filter by
+                        Brand:</label>
+                    <div class="filter-select-wrapper">
+                        <select id="brandFilter" class="filter-select" onchange="window.location.href=this.value">
+                            <option value="/items" th:selected="${selectedBrand == 'All'}">All Brands</option>
+                            <option value="/items/brand/Nike" th:selected="${selectedBrand == 'Nike'}">Nike</option>
+                            <option value="/items/brand/Adidas" th:selected="${selectedBrand == 'Adidas'}">Adidas
+                            </option>
+                            <option value="/items/brand/Levi's" th:selected="${selectedBrand == 'Levi''s'}">Levi's
+                            </option>
+                            <option value="/items/brand/The North Face"
+                                th:selected="${selectedBrand == 'The North Face'}">The North Face</option>
+                            <option value="/items/brand/Puma" th:selected="${selectedBrand == 'Puma'}">Puma</option>
+                            <option value="/items/brand/Under Armour" th:selected="${selectedBrand == 'Under Armour'}">
+                                Under Armour</option>
+                        </select>
+                    </div>
+                </div>
+                <div sec:authorize="hasAnyRole('ADMIN', 'WAREHOUSE_EMPLOYEE')">
+                    <a th:href="@{/add-item}" class="btn-new-item"
+                        style="text-decoration: none; background-color: #2e7d32; color: white; padding: 8px 16px; border-radius: 4px; font-weight: 600;">+
+                        New Item</a>
                 </div>
             </div>
 
             <table th:if="${not #lists.isEmpty(items)}">
                 <thead>
                     <tr>
+                        <th style="width: 80px;">ID</th>
                         <th style="width: 80px;">Image</th>
                         <th>Name</th>
                         <th>Brand</th>
                         <th>Year</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="item : ${items}">
+                        <td th:text="${item.id}"></td>
                         <td>
                             <!-- Cyclical thumbnails based on ID -->
                             <img th:src="@{'/images/handbag-' + (${item.id % 3 + 1}) + '.png'}" alt="Item Thumbnail"
@@ -53,6 +67,7 @@
                         <td th:text="${item.brand}"></td>
                         <td th:text="${item.year}"></td>
                         <td th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                        <td th:text="${item.quantity}"></td>
                     </tr>
                 </tbody>
             </table>

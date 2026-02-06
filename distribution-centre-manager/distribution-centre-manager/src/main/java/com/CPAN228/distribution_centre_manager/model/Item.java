@@ -12,6 +12,8 @@ public class Item {
     private String name;
     private String brand;
     private int quantity;
+    private int year;
+    private double price;
 
     // Getters and Setters
     public Long getId() {
@@ -44,5 +46,21 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -17,7 +17,8 @@ import java.util.List;
 public class ItemController {
 
     private final ItemRepository itemRepository;
-    private static final List<String> BRANDS = List.of("BALENCIAGA", "STONE_ISLAND", "DIOR");
+    private static final List<String> BRANDS = List.of("Nike", "Adidas", "Levi's", "The North Face", "Puma",
+            "Under Armour");
 
     public ItemController(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -28,6 +29,7 @@ public class ItemController {
         Item item = new Item();
         item.setYear(2022);
         item.setPrice(1001);
+        item.setQuantity(1);
         model.addAttribute("item", item);
         model.addAttribute("brands", BRANDS);
         return "add-item";
@@ -40,7 +42,7 @@ public class ItemController {
         if (item.getName() == null || item.getName().trim().length() < 2) {
             errors.add("Name should have at least 2 characters.");
         }
-        if (item.getBrand() == null) {
+        if (item.getBrand() == null || item.getBrand().isEmpty()) {
             errors.add("Brand must be selected.");
         }
         if (item.getYear() <= 2021) {
@@ -48,6 +50,9 @@ public class ItemController {
         }
         if (item.getPrice() <= 1000) {
             errors.add("Price must be more than 1000.");
+        }
+        if (item.getQuantity() < 1) {
+            errors.add("Quantity must be at least 1.");
         }
 
         if (!errors.isEmpty()) {
