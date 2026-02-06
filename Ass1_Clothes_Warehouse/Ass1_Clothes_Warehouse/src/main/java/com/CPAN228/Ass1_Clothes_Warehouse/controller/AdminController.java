@@ -1,10 +1,6 @@
 package com.CPAN228.Ass1_Clothes_Warehouse.controller;
 
 import com.CPAN228.Ass1_Clothes_Warehouse.data.ItemRepository;
-import com.CPAN228.Ass1_Clothes_Warehouse.model.Item;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -45,21 +41,10 @@ public class AdminController {
         return "admin-dashboard";
     }
 
-    @GetMapping("/items-management")
-    public String manageItems(Model model,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "name") String sortBy) {
-        Page<Item> itemPage = itemRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sortBy)));
-        model.addAttribute("items", itemPage.getContent());
-        model.addAttribute("page", itemPage);
-        return "items-management";
-    }
-
     @PostMapping("/items/delete/{id}")
     public String deleteItem(@PathVariable Long id) {
         itemRepository.deleteById(id);
-        return "redirect:/admin/items-management";
+        return "redirect:/items";
     }
 
     @GetMapping("/distribution-centres")
@@ -74,13 +59,16 @@ public class AdminController {
 
         List<Object> centres = Arrays.asList(response.getBody());
 
-
         model.addAttribute("centres", centres);
         return "distribution-centres";
     }
 
     @GetMapping("/request-item")
-    public String showRequestItemForm(Model model) {
+    public String showRequestItemForm(@RequestParam(required = false) String itemName,
+            @RequestParam(required = false) String brand,
+            Model model) {
+        model.addAttribute("prefilledName", itemName);
+        model.addAttribute("prefilledBrand", brand);
         String url = dcApiBaseUrl + "/distribution-centres";
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("manager", "password");
@@ -89,7 +77,7 @@ public class AdminController {
         try {
             ResponseEntity<Object[]> response = restTemplate.exchange(
                     url, HttpMethod.GET, entity, Object[].class);
-            
+
             List<Object> centres = Arrays.asList(response.getBody());
             model.addAttribute("distributionCentres", centres);
 
@@ -113,12 +101,12 @@ public class AdminController {
 
     @PostMapping("/request-item")
     public String requestItem(@RequestParam String itemName,
-                            @RequestParam String brand,
-                            @RequestParam int quantity,
-                            RedirectAttributes redirectAttributes) {
+            @RequestParam String brand,
+            @RequestParam int quantity,
+            RedirectAttributes redirectAttributes) {
         // First, get all distribution centres
         String centresUrl = dcApiBaseUrl + "/distribution-centres";
-        
+
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("manager", "password");
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -127,15 +115,15 @@ public class AdminController {
             // Get all distribution centres
             ResponseEntity<Object[]> centresResponse = restTemplate.exchange(
                     centresUrl, HttpMethod.GET, entity, Object[].class);
-            
+
             List<Object> centres = Arrays.asList(centresResponse.getBody());
-            
+
             // Find all centres that have the item
             List<Map<String, Object>> availableItems = new ArrayList<>();
             for (Object centre : centres) {
                 Map<String, Object> centreMap = (Map<String, Object>) centre;
                 List<Map<String, Object>> items = (List<Map<String, Object>>) centreMap.get("itemsAvailable");
-                
+
                 if (items != null) {
                     for (Map<String, Object> item : items) {
                         if (itemName.equals(item.get("name")) && brand.equals(item.get("brand"))) {
@@ -150,38 +138,39 @@ public class AdminController {
             }
 
             if (availableItems.isEmpty()) {
-                redirectAttributes.addFlashAttribute("error", 
-                    "Item not found in any distribution centre");
+                redirectAttributes.addFlashAttribute("error",
+                        "Item not found in any distribution centre");
                 return "redirect:/admin/request-item";
             }
 
             // Calculate total available quantity across all centres
             int totalAvailable = availableItems.stream()
-                .mapToInt(item -> (Integer) item.get("availableQuantity"))
-                .sum();
+                    .mapToInt(item -> (Integer) item.get("availableQuantity"))
+                    .sum();
 
             if (totalAvailable < quantity) {
-                redirectAttributes.addFlashAttribute("error", 
-                    "Not enough quantity available across all centres. Total available: " + totalAvailable);
+                redirectAttributes.addFlashAttribute("error",
+                        "Not enough quantity available across all centres. Total available: " + totalAvailable);
                 return "redirect:/admin/request-item";
             }
 
             // Sort centres by available quantity (descending)
-            availableItems.sort((a, b) -> 
-                ((Integer) b.get("availableQuantity")).compareTo((Integer) a.get("availableQuantity")));
+            availableItems.sort(
+                    (a, b) -> ((Integer) b.get("availableQuantity")).compareTo((Integer) a.get("availableQuantity")));
 
             // Distribute the request across centres
             int remainingQuantity = quantity;
             StringBuilder successMessage = new StringBuilder();
             successMessage.append("Successfully requested ").append(quantity).append(" units of ")
-                         .append(itemName).append(" (").append(brand).append(") from: ");
+                    .append(itemName).append(" (").append(brand).append(") from: ");
 
             for (Map<String, Object> item : availableItems) {
-                if (remainingQuantity <= 0) break;
+                if (remainingQuantity <= 0)
+                    break;
 
                 int availableInCentre = (Integer) item.get("availableQuantity");
                 int requestFromCentre = Math.min(remainingQuantity, availableInCentre);
-                
+
                 if (requestFromCentre > 0) {
                     // Make the request to this distribution centre
                     String requestUrl = dcApiBaseUrl + "/distribution-centres/request-item";
@@ -200,11 +189,11 @@ public class AdminController {
 
                     if (response.getStatusCode().is2xxSuccessful()) {
                         successMessage.append("\n- ").append(item.get("centreName"))
-                                    .append(": ").append(requestFromCentre).append(" units");
+                                .append(": ").append(requestFromCentre).append(" units");
                         remainingQuantity -= requestFromCentre;
                     } else {
-                        redirectAttributes.addFlashAttribute("error", 
-                            "Failed to process request from " + item.get("centreName") + ": " + response.getBody());
+                        redirectAttributes.addFlashAttribute("error",
+                                "Failed to process request from " + item.get("centreName") + ": " + response.getBody());
                         return "redirect:/admin/request-item";
                     }
                 }
@@ -214,8 +203,8 @@ public class AdminController {
             return "redirect:/admin/distribution-centres";
 
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", 
-                "Failed to process request: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error",
+                    "Failed to process request: " + e.getMessage());
             return "redirect:/admin/request-item";
         }
     }

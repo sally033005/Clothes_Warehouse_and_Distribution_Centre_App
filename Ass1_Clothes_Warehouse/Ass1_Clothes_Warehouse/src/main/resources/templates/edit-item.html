@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Edit Item</title>
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container">
+
+        <!-- Success Message -->
+        <div th:if="${success}" class="alert alert-success">
+            <p th:text="${success}"></p>
+        </div>
+
+        <!-- Error Messages -->
+        <div th:if="${errors}" class="alert alert-danger">
+            <ul style="margin: 0; padding-left: 20px;">
+                <li th:each="error : ${errors}" th:text="${error}"></li>
+            </ul>
+        </div>
+
+        <!-- Item Form -->
+        <form th:action="@{/items/update}" th:object="${item}" method="post" class="card">
+            <h1 style="text-align: center; margin-bottom: 30px; color: var(--text-primary); font-size: 2rem;">Edit Item
+            </h1>
+
+            <!-- Hidden ID field -->
+            <input type="hidden" th:field="*{id}">
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" th:field="*{name}" required minlength="2">
+                <small style="color: var(--text-light); font-size: 14px;">Name must be at least 2 characters</small>
+            </div>
+
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <select id="brand" th:field="*{brand}" required>
+                    <option value="">Select a brand</option>
+                    <option th:each="brand : ${brands}" th:value="${brand}" th:text="${brand}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year of Creation:</label>
+                <input type="number" id="year" th:field="*{year}" required min="2022">
+                <small style="color: var(--text-light); font-size: 14px;">Year must be greater than 2021</small>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" th:field="*{price}" required min="1001" step="0.01">
+                <small style="color: var(--text-light); font-size: 14px;">Price must be more than $1000</small>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" th:field="*{quantity}" required min="1">
+                <small style="color: var(--text-light); font-size: 14px;">Quantity must be at least 1</small>
+            </div>
+
+            <div class="form-group" style="text-align: center;">
+                <button type="submit" class="btn">Update Item</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-2">
+            <a th:href="@{/items}" class="back-link">← Back to Items List</a>
+        </div>
+
+    </div>
+</body>
+
+</html>

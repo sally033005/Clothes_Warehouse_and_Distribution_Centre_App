@@ -31,8 +31,8 @@
                             <label for="itemName">Item Name</label>
                             <select id="itemName" name="itemName" required>
                                 <option value="">Select Item Name</option>
-                                <option th:each="item : ${items}" th:value="${item.name}" th:text="${item.name}">Item
-                                    Name</option>
+                                <option th:each="item : ${items}" th:value="${item.name}" th:text="${item.name}"
+                                    th:selected="${item.name == prefilledName}">Item Name</option>
                             </select>
                         </div>
 
@@ -40,8 +40,8 @@
                             <label for="brand">Brand</label>
                             <select id="brand" name="brand" required>
                                 <option value="">Select Brand</option>
-                                <option th:each="item : ${items}" th:value="${item.brand}" th:text="${item.brand}">Brand
-                                </option>
+                                <option th:each="item : ${items}" th:value="${item.brand}" th:text="${item.brand}"
+                                    th:selected="${item.brand == prefilledBrand}">Brand</option>
                             </select>
                         </div>
 

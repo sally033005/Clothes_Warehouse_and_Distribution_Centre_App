@@ -92,16 +92,45 @@ public class ItemController {
         return "redirect:/items";
     }
 
-    // For Admin's item management
-    @GetMapping("/items-management")
+    @GetMapping("/items/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String showItemManagement(Model model, @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
-            @RequestParam(defaultValue = "name") String sortBy) {
-        Page<Item> itemPage = itemRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sortBy)));
-        model.addAttribute("items", itemPage.getContent());
-        model.addAttribute("page", itemPage);
-        return "items-management";
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid item Id:" + id));
+        model.addAttribute("item", item);
+        model.addAttribute("brands", BRANDS);
+        return "edit-item";
+    }
+
+    @PostMapping("/items/update")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updateItem(@ModelAttribute("item") Item item, Model model) {
+        List<String> errors = new ArrayList<>();
+
+        if (item.getName() == null || item.getName().trim().length() < 2) {
+            errors.add("Name should have at least 2 characters.");
+        }
+        if (item.getBrand() == null || item.getBrand().isEmpty()) {
+            errors.add("Brand must be selected.");
+        }
+        if (item.getYear() <= 2021) {
+            errors.add("Year must be greater than 2021.");
+        }
+        if (item.getPrice() <= 1000) {
+            errors.add("Price must be more than 1000.");
+        }
+        if (item.getQuantity() < 1) {
+            errors.add("Quantity must be at least 1.");
+        }
+
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            model.addAttribute("brands", BRANDS);
+            return "edit-item";
+        }
+
+        itemRepository.save(item);
+        return "redirect:/items";
     }
 
 }
