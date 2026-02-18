@@ -26,4 +26,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     boolean existsByNameAndBrandAndYear(String name, String brand, int year);
 
     Page<Item> findAll(Pageable pageable);
+
+    // Low Stock Logic
+    long countByQuantityLessThanEqual(int threshold);
+
+    List<Item> findByQuantityLessThanEqual(int threshold);
 }

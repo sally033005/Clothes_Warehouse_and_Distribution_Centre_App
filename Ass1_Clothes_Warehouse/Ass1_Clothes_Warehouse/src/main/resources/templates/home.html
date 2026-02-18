@@ -1,107 +1,128 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
-    <title>Home - Sally's Clothes Warehouse</title>
-    <!-- Modern Font: Montserrat -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/styles/styles.css}">
+    <title>Dashboard - Sally's Clothes Warehouse</title>
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
-    <div th:replace="~{fragments/header :: header}"></div>
+<body class="dashboard-body">
 
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="hero-section hero-home">
-            <img th:src="@{/images/hero-bg.png}" alt="Luxury Boutique" class="hero-bg">
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h1 class="hero-title">Redefine Your Style</h1>
-                <p class="hero-subtitle">Experience the pinnacle of luxury with our curated collection of high-end
-                    fashion.</p>
-                <div class="hero-actions">
-                    <a th:href="@{/items}" class="btn btn-primary">Shop Collection</a>
-                    <a th:href="@{/registration}" class="btn btn-light" sec:authorize="isAnonymous()">Join Exclusive</a>
-                </div>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-area">
+                <img th:src="@{/images/logo.png}" alt="Sally's Logo" class="sidebar-logo">
+                <span>SALLY'S</span>
             </div>
         </div>
+        <ul class="sidebar-menu">
+            <li><a th:href="@{/}" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li>
+                <a th:href="@{/items}">
+                    <i class="fas fa-list"></i> Items
+                    <span class="badge badge-danger" th:if="${lowStockCount > 0}" th:text="${lowStockCount}">0</span>
+                </a>
+            </li>
+            <li><a th:href="@{/admin/distribution-centres}"><i class="fas fa-truck"></i> View DC</a></li>
+        </ul>
+    </nav>
 
-        <!-- Featured Collection -->
-        <div class="featured-section">
-            <h2 class="section-title">Featured Collection</h2>
-            <p class="section-subtitle">Discover our season's most coveted highlights, selected for the discerning few.
-            </p>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <header class="dashboard-header">
+            <h2>Dashboard</h2>
+            <div class="header-right">
+                <span class="welcome-text">Welcome, <span th:text="${username}">User</span></span>
+                <form th:action="@{/logout}" method="post" class="logout-form-dashboard">
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </div>
+        </header>
 
-            <div class="product-grid">
-                <!-- Product 1 -->
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img th:src="@{/images/handbag-1.png}" alt="Classic Leather Handbag" class="product-image">
-                    </div>
-                    <div class="product-details">
-                        <div>
-                            <h3 class="product-title">Classic Noir Handbag</h3>
-                            <p class="product-desc">Timeless elegance crafted from full-grain Italian leather.</p>
-                        </div>
-                        <div class="product-price">$2,450</div>
+        <!-- Priorities Section -->
+        <div class="priorities-section card">
+            <div class="priority-header">
+                <h3><i class="fas fa-exclamation-triangle text-warning"></i> Today's Priorities</h3>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="priorities-grid">
+                <div class="priority-item">
+                    <i class="fas fa-exclamation-circle text-danger"></i>
+                    <div>
+                        <span class="priority-count text-danger">Critical Stock</span>
                     </div>
                 </div>
-
-                <!-- Product 2 -->
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img th:src="@{/images/handbag-2.png}" alt="Teal Accent Tote" class="product-image">
-                    </div>
-                    <div class="product-details">
-                        <div>
-                            <h3 class="product-title">Azure Heritage Tote</h3>
-                            <p class="product-desc">A bold statement piece with our signature teal accents.</p>
-                        </div>
-                        <div class="product-price">$3,100</div>
+                <div class="priority-item">
+                    <i class="fas fa-check-circle text-success"></i>
+                    <div>
+                        <span class="priority-count" th:text="${mockAwaitingApproval}">0</span>
+                        <span> awaiting approval - <a href="#">Review requests &rarr;</a></span>
                     </div>
                 </div>
-
-                <!-- Product 3 -->
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img th:src="@{/images/handbag-3.png}" alt="Structured Charcoal Bag" class="product-image">
-                    </div>
-                    <div class="product-details">
-                        <div>
-                            <h3 class="product-title">Slate Structured Bag</h3>
-                            <p class="product-desc">Modern architecture meets functional luxury.</p>
-                        </div>
-                        <div class="product-price">$2,890</div>
+                <div class="priority-item">
+                    <i class="fas fa-truck text-primary-dark"></i>
+                    <div>
+                        <span class="priority-count" th:text="${mockReadyForShipment}">0</span>
+                        <span> ready for shipment - <a href="#">View shipments &rarr;</a></span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Features Grid -->
-        <div class="features-section">
-            <div class="features-grid">
-                <div class="feature-item">
-                    <span class="feature-icon">✨</span>
-                    <h3 class="feature-title">Authenticity Guaranteed</h3>
-                    <p class="feature-desc">Every item passes through our rigorous multi-point inspection process to
-                        ensure absolute authenticity.</p>
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Recent Activities -->
+            <div class="card recent-activities">
+                <div class="card-header-flex">
+                    <h3>Recent Activities</h3>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🌍</span>
-                    <h3 class="feature-title">Global Sourcing</h3>
-                    <p class="feature-desc">We scour the globe to bring you exclusive pieces from the world's most
-                        renowned fashion houses.</p>
+                <ul class="activity-list">
+                    <li th:each="activity : ${recentActivities}">
+                        <span class="activity-dot"
+                            th:classappend="${activity.contains('added') ? 'dot-blue' : (activity.contains('edited') ? 'dot-yellow' : 'dot-green')}"></span>
+                        <span th:text="${activity}">Activity log...</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Low Stock Items -->
+            <div class="card low-stock-table-card">
+                <h3>Low Stock Items</h3>
+                <div class="table-responsive">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Item Name</th>
+                                <th>Stock</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${lowStockItems}">
+                                <td th:text="${item.id}">123</td>
+                                <td th:text="${item.name}">Item Name</td>
+                                <td th:text="${item.quantity} + ' units'">0 units</td>
+                                <td>
+                                    <a th:href="@{/admin/request-item(itemName=${item.name}, brand=${item.brand})}"
+                                        class="btn-request">Request</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(lowStockItems)}">
+                                <td colspan="4" class="text-center">No low stock items.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🛡️</span>
-                    <h3 class="feature-title">Secure Investment</h3>
-                    <p class="feature-desc">Shop with confidence knowing your purchase is protected by our comprehensive
-                        warranty and care plans.</p>
+                <div class="card-footer">
+                    <a th:href="@{/admin/request-item}" class="btn btn-primary btn-block"><i class="fas fa-search"></i>
+                        Quick Request</a>
                 </div>
             </div>
         </div>
