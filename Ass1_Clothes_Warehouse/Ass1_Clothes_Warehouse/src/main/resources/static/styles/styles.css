@@ -1346,94 +1346,101 @@ tr:last-child td {
 
 /* Priorities Section */
 .priorities-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.priority-card {
     background: white;
     border-radius: 8px;
-    padding: 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    /* Softer shadow */
-    margin-bottom: 30px;
-    overflow: hidden;
-}
-
-.priority-header {
-    background-color: #fff;
-    padding: 15px 25px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.priority-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
+    padding: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow per ribbon feel */
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: #333;
+    gap: 20px;
+    transition: transform 0.2s;
 }
 
-.priorities-grid {
+.priority-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+.priority-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.priority-card.critical .priority-icon {
+    background-color: #FEF2F2;
+    /* Light Red */
+}
+
+.priority-card.approval .priority-icon {
+    background-color: #F0FDF4;
+    /* Light Green */
+}
+
+.priority-card.shipment .priority-icon {
+    background-color: #F0F9FF;
+    /* Light Blue */
+}
+
+.priority-info {
     display: flex;
     flex-direction: column;
 }
 
-.priority-item {
-    display: flex;
-    align-items: center;
-    padding: 20px 25px;
-    border-bottom: 1px solid #f0f0f0;
-    transition: background 0.2s;
-}
-
-.priority-item:last-child {
-    border-bottom: none;
-}
-
-.priority-item:hover {
-    background-color: #fcfcfc;
-}
-
-.priority-item i {
-    font-size: 1.5rem;
-    margin-right: 20px;
-    width: 30px;
-    text-align: center;
-}
-
-.priority-item>div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1rem;
-    color: #333;
-    flex-grow: 1;
-}
-
 .priority-count {
     font-weight: 700;
-    font-size: 1.1rem;
-    color: #333;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    color: #334155;
 }
 
-.priority-item a {
-    color: var(--accent-teal);
-    font-weight: 500;
-    margin-left: 5px;
+.priority-label {
     font-size: 0.9rem;
+    color: #64748B;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.priority-label a {
+    color: var(--accent-teal);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.priority-label a:hover {
+    text-decoration: underline;
 }
 
 /* Dashboard Grid */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 40% 60%;
-    /* 2-Column Layout */
+    grid-template-columns: 60% 1fr;
+    /* 60/40 Split */
     gap: 30px;
+    align-items: start;
+    /* Align tops */
 }
 
 @media (max-width: 1024px) {
     .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .priorities-section {
         grid-template-columns: 1fr;
     }
 }
@@ -1530,13 +1537,32 @@ tr:last-child td {
     font-size: 0.85rem;
     border-bottom: 1px solid #eee;
     position: static;
-    /* Remove sticky for this context if needed */
+    text-transform: uppercase;
+}
+
+/* Specific Column Widths */
+.dashboard-table th:nth-child(1),
+.dashboard-table td:nth-child(1) {
+    width: 50px;
+    text-align: center;
+}
+
+.dashboard-table th:nth-child(4),
+.dashboard-table td:nth-child(4) {
+    width: 100px;
+    text-align: right;
 }
 
 .dashboard-table td {
     padding: 15px 20px;
     border-bottom: 1px solid #f0f0f0;
     font-size: 0.9rem;
+}
+
+.dashboard-table td:nth-child(1) {
+    color: #94A3B8;
+    /* Muted ID color */
+    font-family: monospace;
 }
 
 .dashboard-table tr:hover {

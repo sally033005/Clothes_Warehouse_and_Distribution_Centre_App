@@ -45,31 +45,32 @@
         </header>
 
         <!-- Priorities Section -->
-        <div class="priorities-section card">
-            <div class="priority-header">
-                <h3><i class="fas fa-exclamation-triangle text-warning"></i> Today's Priorities</h3>
-                <i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="priorities-grid">
-                <div class="priority-item">
+        <div class="priorities-section">
+            <div class="priority-card critical">
+                <div class="priority-icon">
                     <i class="fas fa-exclamation-circle text-danger"></i>
-                    <div>
-                        <span class="priority-count text-danger">Critical Stock</span>
-                    </div>
                 </div>
-                <div class="priority-item">
+                <div class="priority-info">
+                    <span class="priority-count text-danger">Critical Stock</span>
+                    <span class="priority-label">Action Required</span>
+                </div>
+            </div>
+            <div class="priority-card approval">
+                <div class="priority-icon">
                     <i class="fas fa-check-circle text-success"></i>
-                    <div>
-                        <span class="priority-count" th:text="${mockAwaitingApproval}">0</span>
-                        <span> awaiting approval - <a href="#">Review requests &rarr;</a></span>
-                    </div>
                 </div>
-                <div class="priority-item">
+                <div class="priority-info">
+                    <span class="priority-count" th:text="${mockAwaitingApproval}">3</span>
+                    <span class="priority-label">Awaiting Approval <a href="#">Review &rarr;</a></span>
+                </div>
+            </div>
+            <div class="priority-card shipment">
+                <div class="priority-icon">
                     <i class="fas fa-truck text-primary-dark"></i>
-                    <div>
-                        <span class="priority-count" th:text="${mockReadyForShipment}">0</span>
-                        <span> ready for shipment - <a href="#">View shipments &rarr;</a></span>
-                    </div>
+                </div>
+                <div class="priority-info">
+                    <span class="priority-count" th:text="${mockReadyForShipment}">6</span>
+                    <span class="priority-label">Ready for Shipment <a href="#">View &rarr;</a></span>
                 </div>
             </div>
         </div>
@@ -119,10 +120,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="card-footer">
-                    <a th:href="@{/admin/request-item}" class="btn btn-primary btn-block"><i class="fas fa-search"></i>
-                        Quick Request</a>
                 </div>
             </div>
         </div>
