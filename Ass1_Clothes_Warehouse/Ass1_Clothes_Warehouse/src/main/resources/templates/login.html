@@ -8,21 +8,26 @@
 </head>
 
 <body>
-
-    <div th:replace="~{fragments/header :: header}"></div>
-    <div class="container">
-        <div th:if="${param.error}" class="alert alert-danger" style="max-width: 450px; margin: 0 auto 20px;">
+    <div class="container"
+        style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh;">
+        <div th:if="${param.error}" class="alert alert-danger"
+            style="max-width: 450px; width: 100%; margin: 0 auto 20px;">
             <p>Invalid username or password. Please try again.</p>
         </div>
-        <div th:if="${param.logout}" class="alert alert-success" style="max-width: 450px; margin: 0 auto 20px;">
+        <div th:if="${param.logout}" class="alert alert-success"
+            style="max-width: 450px; width: 100%; margin: 0 auto 20px;">
             <p>You have been logged out successfully.</p>
         </div>
-        <div th:if="${param.registered}" class="alert alert-success" style="max-width: 450px; margin: 0 auto 20px;">
+        <div th:if="${param.registered}" class="alert alert-success"
+            style="max-width: 450px; width: 100%; margin: 0 auto 20px;">
             <p>Registration successful! Please login with your credentials.</p>
         </div>
 
-        <form method="POST" th:action="@{/login}" id="loginForm" class="card" style="margin-top: 40px;">
-            <h1 style="text-align: center; margin-bottom: 30px; color: var(--text-primary); font-size: 2rem;">Login</h1>
+        <form method="POST" th:action="@{/login}" id="loginForm" class="card" style="width: 100%; max-width: 450px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img th:src="@{/images/logo.png}" alt="Sally's Logo" style="height: 60px;">
+            </div>
+            <h1 style="text-align: center; margin-bottom: 25px; color: var(--text-primary); font-size: 2rem;">Login</h1>
 
             <div class="form-group" style="text-align: center;">
                 <p style="margin-bottom: 0;">New here? <a th:href="@{/registration}"

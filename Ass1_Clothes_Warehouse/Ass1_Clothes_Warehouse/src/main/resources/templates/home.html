@@ -11,38 +11,12 @@
 
 <body class="dashboard-body">
 
-    <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-area">
-                <img th:src="@{/images/logo.png}" alt="Sally's Logo" class="sidebar-logo">
-                <span>SALLY'S</span>
-            </div>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a th:href="@{/}" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li>
-                <a th:href="@{/items}">
-                    <i class="fas fa-list"></i> Items
-                    <span class="badge badge-danger" th:if="${lowStockCount > 0}" th:text="${lowStockCount}">0</span>
-                </a>
-            </li>
-            <li><a th:href="@{/admin/distribution-centres}"><i class="fas fa-truck"></i> View DC</a></li>
-        </ul>
-    </nav>
+    <div th:replace="~{fragments/sidebar :: sidebar(activePage='dashboard')}"></div>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Top Header -->
-        <header class="dashboard-header">
-            <h2>Dashboard</h2>
-            <div class="header-right">
-                <span class="welcome-text">Welcome, <span th:text="${username}">User</span></span>
-                <form th:action="@{/logout}" method="post" class="logout-form-dashboard">
-                    <button type="submit" class="btn-logout">Logout</button>
-                </form>
-            </div>
-        </header>
+        <div th:replace="~{fragments/header :: header(pageTitle='Dashboard')}"></div>
 
         <!-- Priorities Section -->
         <div class="priorities-section">

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav class="sidebar" th:fragment="sidebar(activePage)">
+        <div class="sidebar-header">
+            <div class="logo-area">
+                <img th:src="@{/images/logo.png}" alt="Sally's Logo" class="sidebar-logo">
+                <span>SALLY'S</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a th:href="@{/}" th:classappend="${activePage == 'dashboard' ? 'active' : ''}"><i
+                        class="fas fa-home"></i> Dashboard</a></li>
+            <li>
+                <a th:href="@{/items}" th:classappend="${activePage == 'items' ? 'active' : ''}">
+                    <i class="fas fa-list"></i> Items
+                    <span class="badge badge-danger" th:if="${lowStockCount != null and lowStockCount > 0}"
+                        th:text="${lowStockCount}">0</span>
+                </a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/distribution-centres}"
+                    th:classappend="${activePage == 'dc' ? 'active' : ''}"><i class="fas fa-truck"></i> View DC</a></li>
+        </ul>
+    </nav>
+</body>
+
+</html>

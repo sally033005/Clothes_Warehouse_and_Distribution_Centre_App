@@ -1,72 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-
-<head>
-    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        // Dynamically adjust body padding based on header height on mobile
-        document.addEventListener('DOMContentLoaded', function () {
-            function adjustBodyPadding() {
-                if (window.innerWidth <= 768) {
-                    const navbar = document.querySelector('.navbar');
-                    if (navbar) {
-                        const headerHeight = navbar.offsetHeight;
-                        document.body.style.paddingTop = (headerHeight + 10) + 'px';
-                    }
-                } else {
-                    document.body.style.paddingTop = '70px';
-                }
-            }
-
-            adjustBodyPadding();
-            window.addEventListener('resize', adjustBodyPadding);
-            // Re-adjust after a short delay to ensure all content is loaded
-            setTimeout(adjustBodyPadding, 100);
-        });
-    </script>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <body>
-    <header class="navbar">
-        <nav>
-            <a th:href="@{/}" class="logo">
-                <img th:src="@{/images/logo.png}" alt="SALLY'S Logo" class="logo-img">
-            </a>
-
-            <input type="checkbox" id="menu-toggle" class="menu-toggle">
-            <label for="menu-toggle" class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-
-            <ul class="nav-list">
-                <li><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/items}">Item List</a></li>
-
-                <li sec:authorize="isAnonymous()">
-                    <a th:href="@{/login}">Login</a>
-                </li>
-                <li sec:authorize="isAnonymous()">
-                    <a th:href="@{/registration}">Register</a>
-                </li>
-
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/admin}">Admin Panel</a>
-                </li>
-
-                <li sec:authorize="isAuthenticated()" class="user-welcome">
-                    <span th:text="'Welcome, ' + ${#authentication.name}"></span>
-                </li>
-
-                <li sec:authorize="isAuthenticated()">
-                    <form method="POST" th:action="@{/logout}" class="logout-form">
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
+    <header class="dashboard-header" th:fragment="header">
+        <h2 th:text="${pageTitle ?: 'Dashboard'}">Dashboard</h2>
+        <div class="header-right">
+            <span class="welcome-text">Welcome, <span th:text="${#authentication.name}">User</span></span>
+            <form th:action="@{/logout}" method="post" class="logout-form-dashboard">
+                <button type="submit" class="btn-logout">Logout</button>
+            </form>
+        </div>
     </header>
 </body>
 

@@ -74,57 +74,57 @@
 </head>
 
 <body>
-    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/sidebar :: sidebar(activePage='dc')}"></div>
+    <div class="main-content">
+        <div th:replace="~{fragments/header :: header(pageTitle='View DCs')}"></div>
 
-    <div class="container">
-        <div class="hero-section">
-            <h1>Distribution Centres</h1>
-        </div>
+        <div class="container" style="padding-top: 20px;">
 
-        <!-- Success/Error Messages -->
-        <div th:if="${success}" class="alert alert-success">
-            <span th:text="${success}"></span>
-        </div>
-        <div th:if="${error}" class="alert alert-danger">
-            <span th:text="${error}"></span>
-        </div>
+            <!-- Success/Error Messages -->
+            <div th:if="${success}" class="alert alert-success">
+                <span th:text="${success}"></span>
+            </div>
+            <div th:if="${error}" class="alert alert-danger">
+                <span th:text="${error}"></span>
+            </div>
 
-        <div th:if="${centres == null or centres.isEmpty()}" class="alert alert-info">
-            <p>No distribution centres available.</p>
-        </div>
+            <div th:if="${centres == null or centres.isEmpty()}" class="alert alert-info">
+                <p>No distribution centres available.</p>
+            </div>
 
-        <div class="centres-grid" th:if="${centres != null and not #lists.isEmpty(centres)}">
-            <div class="centre-card" th:each="centre : ${centres}">
-                <div class="centre-header">
-                    <h3 th:text="${centre.name}">Distribution Centre Name</h3>
-                </div>
-                <div class="centre-body">
-                    <div class="location-info">
-                        <span
-                            th:text="${#numbers.formatDecimal(centre.latitude, 1, 4)} + ', ' + ${#numbers.formatDecimal(centre.longitude, 1, 4)}">Location</span>
+            <div class="centres-grid" th:if="${centres != null and not #lists.isEmpty(centres)}">
+                <div class="centre-card" th:each="centre : ${centres}">
+                    <div class="centre-header">
+                        <h3 th:text="${centre.name}">Distribution Centre Name</h3>
                     </div>
-
-                    <div class="items-section">
-                        <h5>Available Items:</h5>
-                        <div th:if="${centre.itemsAvailable == null or #lists.isEmpty(centre.itemsAvailable)}"
-                            style="color: var(--text-light); font-style: italic;">
-                            No items available
+                    <div class="centre-body">
+                        <div class="location-info">
+                            <span
+                                th:text="${#numbers.formatDecimal(centre.latitude, 1, 4)} + ', ' + ${#numbers.formatDecimal(centre.longitude, 1, 4)}">Location</span>
                         </div>
-                        <div th:if="${centre.itemsAvailable != null and not #lists.isEmpty(centre.itemsAvailable)}"
-                            class="badge-list">
-                            <span th:each="item : ${centre.itemsAvailable}" class="badge badge-primary">
-                                <span th:text="${item.name}">Item Name</span>
-                                (<span th:text="${item.brand}">Brand</span>) -
-                                <span th:text="${item.quantity}">Quantity</span>
-                            </span>
+
+                        <div class="items-section">
+                            <h5>Available Items:</h5>
+                            <div th:if="${centre.itemsAvailable == null or #lists.isEmpty(centre.itemsAvailable)}"
+                                style="color: var(--text-light); font-style: italic;">
+                                No items available
+                            </div>
+                            <div th:if="${centre.itemsAvailable != null and not #lists.isEmpty(centre.itemsAvailable)}"
+                                class="badge-list">
+                                <span th:each="item : ${centre.itemsAvailable}" class="badge badge-primary">
+                                    <span th:text="${item.name}">Item Name</span>
+                                    (<span th:text="${item.brand}">Brand</span>) -
+                                    <span th:text="${item.quantity}">Quantity</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="text-center mt-4">
-            <a th:href="@{/admin}" class="back-link">← Back to Admin Dashboard</a>
+            <div class="text-center mt-4" style="margin-bottom: 30px;">
+                <a th:href="@{/home}" class="back-link">← Back to Dashboard</a>
+            </div>
         </div>
     </div>
 </body>
